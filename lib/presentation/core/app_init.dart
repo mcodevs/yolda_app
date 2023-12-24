@@ -12,12 +12,8 @@ class AppInit {
       options: DefaultFirebaseOptions.currentPlatform,
     );
     await EasyLocalization.ensureInitialized();
-    print("1");
     await DBService.initialize();
-    print("2");
     await RemoteConfigService.initialize();
-    print("3");
     await ConnectivityService.checkInternet();
-    print("4");
   }
 }

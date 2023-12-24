@@ -16,9 +16,9 @@ class RemoteConfigService {
       ),
     );
 
-    await service.fetchAndActivate();
+    print(await service.fetchAndActivate());
 
     _appVersion = service.getString("app_version");
+    print(_appVersion);
   }
 }
-

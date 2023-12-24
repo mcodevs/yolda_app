@@ -18,4 +18,8 @@ class DBService {
 
   static ThemeMode get theme =>
       (storage.getBool(_dark) ?? false) ? ThemeMode.dark : ThemeMode.light;
+
+  static Future<void> changeTheme(ThemeMode mode) async {
+    await storage.setBool(_dark, mode == ThemeMode.dark ? true : false);
+  }
 }
