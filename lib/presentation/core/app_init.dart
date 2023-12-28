@@ -3,7 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:yolda_app/firebase_options.dart';
 import 'package:yolda_app/infrastructure/services/connectivity.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
+import 'package:yolda_app/infrastructure/services/geofencing_service.dart';
 import 'package:yolda_app/infrastructure/services/remote_config_service.dart';
+import 'package:yolda_app/infrastructure/services/tts_service.dart';
 
 class AppInit {
   static Future<void> initializeApp() async {
@@ -11,9 +13,14 @@ class AppInit {
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
-    await EasyLocalization.ensureInitialized();
-    await DBService.initialize();
-    await RemoteConfigService.initialize();
-    await ConnectivityService.checkInternet();
+
+    await Future.wait([
+      DBService.initialize(),
+      EasyLocalization.ensureInitialized(),
+      RemoteConfigService.initialize(),
+      ConnectivityService.checkInternet(),
+      TTSService.initialize(),
+    ]);
+    Geofencing.initialize();
   }
 }

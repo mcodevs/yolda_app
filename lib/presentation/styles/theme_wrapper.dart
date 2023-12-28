@@ -20,8 +20,12 @@ class ThemeWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Consumer<CustomTheme>(
-      builder: (context, theme, _) =>
-          builder(theme.colors, theme.fonts, theme.icons, theme),
+      builder: (context, theme, _) => builder(
+        theme.colors,
+        theme.fonts,
+        theme.icons,
+        theme,
+      ),
     );
   }
 }

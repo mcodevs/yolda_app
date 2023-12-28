@@ -32,6 +32,14 @@ dependencies:
   # Connection Checkers
   observe_internet_connectivity: ^1.0.2
   provider: ^6.1.1
+  package_info_plus: ^5.0.1
+  google_maps_flutter: ^2.5.0
+  flutter_tts: ^3.8.5
+  geofence_service: ^5.0.0
+  geolocator: ^10.1.0
+  pinput: ^3.0.1
+  mask_text_input_formatter: ^2.7.0
+  flutter_screenutil: ^5.9.0
 
 
 
@@ -47,6 +55,7 @@ flutter:
 
   assets:
     - assets/translations/
+    - assets/images/
 
   fonts:
     - family: RaviPrakash
