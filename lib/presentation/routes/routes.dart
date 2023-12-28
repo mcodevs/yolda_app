@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:yolda_app/infrastructure/services/connectivity.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
 import 'package:yolda_app/presentation/pages/auth/login/login_page.dart';
@@ -17,6 +18,23 @@ abstract final class Routes {
         return getIntroPage();
       } else {
         return noConnectionPage();
+      }
+    }
+  }
+
+  static Future<void> checkAndPushHome(BuildContext context) async {
+    final permissions = await [
+      Permission.location,
+      Permission.activityRecognition,
+    ].request();
+    if (permissions.values
+        .every((element) => element == PermissionStatus.granted)) {
+      if (context.mounted) {
+        Navigator.pushAndRemoveUntil(
+          context,
+          getHomePage(),
+          (route) => false,
+        );
       }
     }
   }

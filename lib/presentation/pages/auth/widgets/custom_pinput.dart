@@ -35,8 +35,8 @@ class _CustomPinPutState extends State<CustomPinPut> {
   static final defaultPinTheme = PinTheme(
     width: 40.r,
     height: 40.r,
-    textStyle: const TextStyle(
-      fontSize: 20,
+    textStyle: TextStyle(
+      fontSize: 18.sp,
       color: Style.black,
     ),
     decoration: BoxDecoration(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:pinput/pinput.dart';
 import 'package:yolda_app/presentation/pages/auth/widgets/custom_pinput.dart';
+import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 import 'package:yolda_app/presentation/widgets/header.dart';
 import 'package:yolda_app/presentation/widgets/main_button.dart';
@@ -61,7 +62,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   ),
                   const Spacer(),
                   MainButton(
-                    onPressed: () {},
+                    onPressed: () => Routes.checkAndPushHome(context),
                     backgroundColor: colors.onPrimary,
                     text: "Tasdiqlash",
                   ),
