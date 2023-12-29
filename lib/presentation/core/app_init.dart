@@ -4,6 +4,7 @@ import 'package:yolda_app/firebase_options.dart';
 import 'package:yolda_app/infrastructure/services/connectivity.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
 import 'package:yolda_app/infrastructure/services/geofencing_service.dart';
+import 'package:yolda_app/infrastructure/services/log_service.dart';
 import 'package:yolda_app/infrastructure/services/remote_config_service.dart';
 import 'package:yolda_app/infrastructure/services/tts_service.dart';
 
@@ -21,6 +22,7 @@ class AppInit {
       ConnectivityService.checkInternet(),
       TTSService.initialize(),
     ]);
+    LogService.create;
     Geofencing.initialize();
   }
 }

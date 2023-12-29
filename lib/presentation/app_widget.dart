@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:yolda_app/application/auth/auth_bloc.dart';
 import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 
@@ -19,6 +21,14 @@ class _AppWidgetState extends State<AppWidget> {
         locale: context.locale,
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
+
+        /// Builder
+        builder: (context, child) {
+          return BlocProvider(
+            create: (context) => AuthBloc(),
+            child: child,
+          );
+        },
 
         /// Routes
         onGenerateRoute: (settings) => Routes.getInitialRoute(),

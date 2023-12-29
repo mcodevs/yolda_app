@@ -11,7 +11,7 @@ import 'package:yolda_app/presentation/pages/intro/intro_page.dart';
 abstract final class Routes {
   const Routes._();
   static PageRoute getInitialRoute() {
-    if (DBService.isLogged) {
+    if (DBService.getToken() != null) {
       return getHomePage();
     } else {
       if (ConnectivityService.hasConnection) {

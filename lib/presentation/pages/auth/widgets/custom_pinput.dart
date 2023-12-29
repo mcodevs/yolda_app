@@ -114,7 +114,7 @@ class _CustomPinPutState extends State<CustomPinPut> {
                           child: Text(
                             value,
                             style: fonts.robotoRegular.copyWith(
-                              fontSize: 30.sp,
+                              fontSize: 25.sp,
                               color: colors.white,
                               fontWeight: FontWeight.w600,
                             ),
