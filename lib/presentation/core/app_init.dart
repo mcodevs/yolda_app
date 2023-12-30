@@ -27,6 +27,7 @@ class AppInit {
     ]);
 
     // DBService.storage.clear(); //  Uncomment this line for clear local storage
+
     MyMarker.setIcon(GetIcon.icon);
     LogService.create;
     Geofencing.initialize();

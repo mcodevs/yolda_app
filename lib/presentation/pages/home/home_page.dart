@@ -20,6 +20,8 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   final Completer<GoogleMapController> _controller = Completer();
+  StreamSubscription? subscription;
+  final ValueNotifier<int> speed = ValueNotifier(0);
   late final MarkerBloc _bloc;
   bool isVisible = true;
 
@@ -41,9 +43,41 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  void speedChange() {
+    Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.bestForNavigation,
+      ),
+    ).listen((event) {
+      speed.value = (event.speed * 3.6).round();
+    });
+  }
+
   void onMapCreated(controller) async {
     _controller.complete(controller);
     getUserCameraPosition();
+  }
+
+  Future<void> listenLocationChange() async {
+    final controller = await _controller.future;
+    subscription = Geolocator.getPositionStream(
+      locationSettings: const LocationSettings(
+        accuracy: LocationAccuracy.bestForNavigation,
+      ),
+    ).listen(
+      (event) {
+        controller.animateCamera(
+          CameraUpdate.newCameraPosition(
+            CameraPosition(
+              target: LatLng(event.latitude, event.longitude),
+              zoom: 17,
+              tilt: 90,
+              bearing: event.heading,
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override
@@ -53,6 +87,7 @@ class _HomePageState extends State<HomePage> {
       ..add(
         const MarkerEvent.getAllMarkers(),
       );
+    speedChange();
   }
 
   @override
@@ -67,14 +102,50 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            setState(() {
-              isVisible = !isVisible;
-            });
-          },
-          child: Icon(
-            isVisible ? Icons.visibility_off : Icons.visibility,
+        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+        floatingActionButton: Padding(
+          padding: const EdgeInsets.only(bottom: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              FloatingActionButton(
+                onPressed: () async {
+                  if (subscription == null) {
+                    await listenLocationChange();
+                  } else if (subscription!.isPaused) {
+                    subscription!.resume();
+                  } else {
+                    subscription!.pause();
+                  }
+                  setState(() {});
+                },
+                child: Icon(
+                  subscription == null ||
+                          (subscription != null && subscription!.isPaused)
+                      ? Icons.gps_not_fixed
+                      : Icons.gps_fixed,
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: () {},
+                child: ValueListenableBuilder(
+                  valueListenable: speed,
+                  builder: (context, value, _) {
+                    return Text("$value");
+                  },
+                ),
+              ),
+              FloatingActionButton(
+                onPressed: () {
+                  setState(() {
+                    isVisible = !isVisible;
+                  });
+                },
+                child: Icon(
+                  isVisible ? Icons.visibility_off : Icons.visibility,
+                ),
+              ),
+            ],
           ),
         ),
         body: Stack(
