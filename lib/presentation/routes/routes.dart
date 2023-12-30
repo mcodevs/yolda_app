@@ -14,12 +14,7 @@ abstract final class Routes {
     if (DBService.getToken() != null) {
       return getHomePage();
     } else {
-      print(ConnectivityService.hasConnection);
-      if (ConnectivityService.hasConnection) {
-        return getIntroPage();
-      } else {
-        return noConnectionPage();
-      }
+      return getIntroPage();
     }
   }
 

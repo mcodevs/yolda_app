@@ -7,10 +7,11 @@ class ConnectivityService {
 
   static bool get hasConnection => _hasConnection ?? false;
 
-  static Future<void> checkInternet() async {
+  static Future<bool> checkInternet() async {
     _hasConnection = await _connectivity.hasInternetConnection;
+    return _hasConnection ?? false;
   }
 
-  static Stream<bool> streamConnectivity() =>
-      _connectivity.observeInternetConnection;
+  static Stream<bool> streamConnectivity =
+      _connectivity.observeInternetConnection.asBroadcastStream();
 }
