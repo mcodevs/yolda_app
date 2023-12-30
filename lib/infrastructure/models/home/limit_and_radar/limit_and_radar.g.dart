@@ -10,10 +10,9 @@ LimitAndRadar _$LimitAndRadarFromJson(Map<String, dynamic> json) =>
     LimitAndRadar(
       id: json['id'] as String,
       territory: json['territory'] as String,
-      type: $enumDecode(_$RadarTypeEnumMap, json['type']),
+      type: $enumDecodeNullable(_$RadarTypeEnumMap, json['type']),
       speedLimit: json['speed_limit'] as int,
-      location: const LatLngJsonConverter()
-          .fromJson(json['location'] as List<double>),
+      location: const LatLngJsonConverter().fromJson(json['location'] as List),
       directionType: json['directionType'] as String,
       data: json['data'] as String,
     );

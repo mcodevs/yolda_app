@@ -2,13 +2,13 @@ part of 'marker_bloc.dart';
 
 @freezed
 class MarkerEvent with _$MarkerEvent {
-  const factory MarkerEvent.getAllMarkers() = _GetAllMarkers;
+  const factory MarkerEvent.getAllMarkers({String? territory}) = _GetAllMarkers;
   
-  const factory MarkerEvent.addMarker({
+  const factory MarkerEvent.readMarker({
     required Radar radar,
   }) = _AddMarker;
 
-  const factory MarkerEvent.removeMarker({
+  const factory MarkerEvent.createMarker({
     required Radar radar,
   }) = _RemoveMarker;
 
@@ -17,6 +17,6 @@ class MarkerEvent with _$MarkerEvent {
   }) = _UpdateMarker;
 
   const factory MarkerEvent.deleteMarker({
-    required Radar radar,
+    required String id,
   }) = _DeleteMarker;
 }

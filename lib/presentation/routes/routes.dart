@@ -14,6 +14,7 @@ abstract final class Routes {
     if (DBService.getToken() != null) {
       return getHomePage();
     } else {
+      print(ConnectivityService.hasConnection);
       if (ConnectivityService.hasConnection) {
         return getIntroPage();
       } else {
@@ -48,7 +49,7 @@ abstract final class Routes {
       );
 
   static PageRoute noConnectionPage() => MaterialPageRoute(
-        builder: (context) => const IntroPage(),
+        builder: (context) => const Placeholder(),
       );
 
   static PageRoute getLoginPage() => MaterialPageRoute(

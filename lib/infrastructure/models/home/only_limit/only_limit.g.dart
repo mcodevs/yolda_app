@@ -9,10 +9,9 @@ part of 'only_limit.dart';
 OnlyLimit _$OnlyLimitFromJson(Map<String, dynamic> json) => OnlyLimit(
       id: json['id'] as String,
       territory: json['territory'] as String,
-      type: $enumDecode(_$RadarTypeEnumMap, json['type']),
+      type: $enumDecodeNullable(_$RadarTypeEnumMap, json['type']),
       speedLimit: json['speed_limit'] as int,
-      location: const LatLngJsonConverter()
-          .fromJson(json['location'] as List<double>),
+      location: const LatLngJsonConverter().fromJson(json['location'] as List),
     );
 
 Map<String, dynamic> _$OnlyLimitToJson(OnlyLimit instance) => <String, dynamic>{

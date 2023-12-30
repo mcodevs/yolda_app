@@ -1,12 +1,11 @@
-import 'dart:ui';
 
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geofence_service/geofence_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:yolda_app/infrastructure/models/home/limit_and_radar/limit_and_radar.dart';
+import 'package:yolda_app/infrastructure/models/home/my_marker/my_marker.dart';
 import 'package:yolda_app/infrastructure/models/home/only_limit/only_limit.dart';
-import 'package:yolda_app/infrastructure/services/icon_manager.dart';
 
 enum RadarType {
   @JsonValue("only-limit")
@@ -16,8 +15,8 @@ enum RadarType {
 
   static RadarType fromString(String type) {
     return switch (type) {
-      "onlyLimit" => RadarType.onlyLimit,
-      "limitAndRadar" => RadarType.limitAndRadar,
+      "only-limit" => RadarType.onlyLimit,
+      "limit-and-radar" => RadarType.limitAndRadar,
       _ => RadarType.onlyLimit,
     };
   }
@@ -47,11 +46,10 @@ abstract class Radar with _RadarModelPatternMatcher {
     LatLng? location,
   });
 
-  Marker toMarker() => Marker(
+  MyMarker toMarker() => MyMarker(
         markerId: MarkerId(id),
-        icon: GetIcon.icon,
-        onTap: () {},
-
+        position: location,
+        radar: this,
       );
 
   Geofence toGeofence() => Geofence(
@@ -116,17 +114,17 @@ abstract class Radar with _RadarModelPatternMatcher {
   int get hashCode => id.hashCode;
 }
 
-class LatLngJsonConverter extends JsonConverter<LatLng, List<double>> {
+class LatLngJsonConverter extends JsonConverter<LatLng, List> {
   const LatLngJsonConverter();
 
   @override
-  LatLng fromJson(List<double> json) {
-    return LatLng.fromJson(json)!;
+  LatLng fromJson(List json) {
+    return LatLng(json[0] as double, json[1] as double);
   }
 
   @override
-  List<double> toJson(LatLng object) {
-    return (object.toJson() as List).cast<double>();
+  List toJson(LatLng object) {
+    return [object.latitude, object.longitude];
   }
 }
 
@@ -137,11 +135,3 @@ mixin _RadarModelPatternMatcher {
   });
 }
 
-class MyMarker extends Marker {
-  const MyMarker({required super.markerId});
-
-  @override
-  // TODO: implement onTap
-  VoidCallback? get onTap => super.onTap;
-  
-}
