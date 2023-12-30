@@ -4,7 +4,7 @@ import 'package:geofence_service/geofence_service.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import 'package:yolda_app/infrastructure/models/home/limit_and_radar/limit_and_radar.dart';
-import 'package:yolda_app/infrastructure/models/home/my_marker/my_marker.dart';
+import 'package:yolda_app/domain/common/my_marker/my_marker.dart';
 import 'package:yolda_app/infrastructure/models/home/only_limit/only_limit.dart';
 
 enum RadarType {

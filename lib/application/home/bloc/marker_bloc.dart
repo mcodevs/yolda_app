@@ -1,9 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/foundation.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:yolda_app/infrastructure/models/home/my_marker/my_marker.dart';
+import 'package:yolda_app/domain/common/my_marker/my_marker.dart';
 import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
-import 'package:yolda_app/infrastructure/repositories/radar_service_repo.dart';
+import 'package:yolda_app/domain/radar_service/radar_service_repo.dart';
 
 part 'marker_event.dart';
 part 'marker_state.dart';

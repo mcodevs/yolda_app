@@ -1,5 +1,5 @@
 import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
-import 'package:yolda_app/infrastructure/repositories/radar_service_repo.dart';
+import 'package:yolda_app/domain/radar_service/radar_service_repo.dart';
 
 class RadarService extends RadarServiceRepo {
   @override
