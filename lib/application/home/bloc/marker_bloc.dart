@@ -10,16 +10,23 @@ part 'marker_bloc.freezed.dart';
 class MarkerBloc extends Bloc<MarkerEvent, MarkerState> {
   MarkerBloc() : super(const MarkerState.loading()) {
     on<MarkerEvent>((event, emit) => event.map(
-          getAllMarkers: (value) {},
-          addMarker: (value) {
-            value.radar.map(
-              onOnlyLimit: (value) {},
-              onLimitAndRadar: (value) {},
-            );
-          },
-          removeMarker: (value) {},
-          updateMarker: (value) {},
-          deleteMarker: (value) {},
+          getAllMarkers: (value) => _onGetAllMarkers(value, emit),
+          addMarker: (value) => _onAddMarker(value, emit),
+          removeMarker: (value) => _onRemoveMarker(value, emit),
+          updateMarker: (value) => _onUpdateMarker(value, emit),
+          deleteMarker: (value) => _onDeleteMarker(value, emit),
         ));
   }
+
+  void _onGetAllMarkers(_GetAllMarkers value, Emitter<MarkerState> emit) {
+    
+  }
+
+  void _onAddMarker(_AddMarker value, Emitter<MarkerState> emit) {}
+
+  void _onRemoveMarker(_RemoveMarker value, Emitter<MarkerState> emit) {}
+
+  void _onUpdateMarker(_UpdateMarker value, Emitter<MarkerState> emit) {}
+
+  void _onDeleteMarker(_DeleteMarker value, Emitter<MarkerState> emit) {}
 }

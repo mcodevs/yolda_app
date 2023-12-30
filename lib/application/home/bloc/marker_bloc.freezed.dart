@@ -240,10 +240,10 @@ class __$$AddMarkerImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? radar = freezed,
+    Object? radar = null,
   }) {
     return _then(_$AddMarkerImpl(
-      radar: freezed == radar
+      radar: null == radar
           ? _value.radar
           : radar // ignore: cast_nullable_to_non_nullable
               as Radar,
@@ -277,12 +277,11 @@ class _$AddMarkerImpl with DiagnosticableTreeMixin implements _AddMarker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$AddMarkerImpl &&
-            const DeepCollectionEquality().equals(other.radar, radar));
+            (identical(other.radar, radar) || other.radar == radar));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(radar));
+  int get hashCode => Object.hash(runtimeType, radar);
 
   @JsonKey(ignore: true)
   @override
@@ -400,10 +399,10 @@ class __$$RemoveMarkerImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? radar = freezed,
+    Object? radar = null,
   }) {
     return _then(_$RemoveMarkerImpl(
-      radar: freezed == radar
+      radar: null == radar
           ? _value.radar
           : radar // ignore: cast_nullable_to_non_nullable
               as Radar,
@@ -437,12 +436,11 @@ class _$RemoveMarkerImpl with DiagnosticableTreeMixin implements _RemoveMarker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RemoveMarkerImpl &&
-            const DeepCollectionEquality().equals(other.radar, radar));
+            (identical(other.radar, radar) || other.radar == radar));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(radar));
+  int get hashCode => Object.hash(runtimeType, radar);
 
   @JsonKey(ignore: true)
   @override
@@ -561,10 +559,10 @@ class __$$UpdateMarkerImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? radar = freezed,
+    Object? radar = null,
   }) {
     return _then(_$UpdateMarkerImpl(
-      radar: freezed == radar
+      radar: null == radar
           ? _value.radar
           : radar // ignore: cast_nullable_to_non_nullable
               as Radar,
@@ -598,12 +596,11 @@ class _$UpdateMarkerImpl with DiagnosticableTreeMixin implements _UpdateMarker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$UpdateMarkerImpl &&
-            const DeepCollectionEquality().equals(other.radar, radar));
+            (identical(other.radar, radar) || other.radar == radar));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(radar));
+  int get hashCode => Object.hash(runtimeType, radar);
 
   @JsonKey(ignore: true)
   @override
@@ -722,10 +719,10 @@ class __$$DeleteMarkerImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? radar = freezed,
+    Object? radar = null,
   }) {
     return _then(_$DeleteMarkerImpl(
-      radar: freezed == radar
+      radar: null == radar
           ? _value.radar
           : radar // ignore: cast_nullable_to_non_nullable
               as Radar,
@@ -759,12 +756,11 @@ class _$DeleteMarkerImpl with DiagnosticableTreeMixin implements _DeleteMarker {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DeleteMarkerImpl &&
-            const DeepCollectionEquality().equals(other.radar, radar));
+            (identical(other.radar, radar) || other.radar == radar));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(radar));
+  int get hashCode => Object.hash(runtimeType, radar);
 
   @JsonKey(ignore: true)
   @override
