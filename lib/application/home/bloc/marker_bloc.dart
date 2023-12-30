@@ -4,6 +4,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yolda_app/domain/common/my_marker/my_marker.dart';
 import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
 import 'package:yolda_app/domain/radar_service/radar_service_repo.dart';
+import 'package:yolda_app/infrastructure/services/geofencing_service.dart';
+import 'package:yolda_app/infrastructure/services/log_service.dart';
 
 part 'marker_event.dart';
 part 'marker_state.dart';
@@ -26,12 +28,13 @@ class MarkerBloc extends Bloc<MarkerEvent, MarkerState> {
     );
   }
 
-  void onTapForMarkers(MyMarker marker) {
-    print(marker.radar.speedLimit);
+  void onTapForMarkers(MyMarker marker) {}
+
+  Future<List<Radar>> getRadarsFromNetwork({String? territory}) async {
+    return await _repository.readAllRadars(territory: territory);
   }
 
-  Future<Set<MyMarker>> getMarkersFromNetwork({String? territory}) async {
-    final radars = await _repository.readAllRadars(territory: territory);
+  Set<MyMarker> convertToMarkers(List<Radar> radars) {
     return radars.map((e) => e.toMarker()).toSet();
   }
 
@@ -39,7 +42,21 @@ class MarkerBloc extends Bloc<MarkerEvent, MarkerState> {
     _GetAllMarkers value,
     Emitter<MarkerState> emit,
   ) async {
-    final markers = await getMarkersFromNetwork(territory: value.territory);
+    Geofencing.close();
+    final radars = await getRadarsFromNetwork(territory: value.territory);
+    final markers = convertToMarkers(radars);
+    Geofencing.getRadars(radars);
+    Geofencing.listenRadar(
+      onInside: (radar, distance) {
+        LogService.i("Radar ichidasan");
+      },
+      onOutside: () {
+        LogService.e("Radardan chiqding");
+      },
+      onOtherRadarDetected: (radar, distance) {
+        LogService.d("Boshqa radar topildi");
+      },
+    );
     emit(MarkerState.success(markers.toSet()));
   }
 
@@ -50,7 +67,9 @@ class MarkerBloc extends Bloc<MarkerEvent, MarkerState> {
     Emitter<MarkerState> emit,
   ) async {
     await _repository.createRadar(radar: value.radar);
-    final markers = await getMarkersFromNetwork();
+    Geofencing.addRadar(value.radar);
+    final radars = await getRadarsFromNetwork();
+    final markers = convertToMarkers(radars);
     emit(MarkerState.success(markers));
   }
 

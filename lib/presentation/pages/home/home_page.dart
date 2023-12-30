@@ -7,6 +7,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
 import 'package:yolda_app/application/home/bloc/marker_bloc.dart';
+import 'package:yolda_app/domain/common/extensions/set_extension.dart';
 import 'package:yolda_app/infrastructure/implementations/radar_service/fake_radar_service.dart';
 import 'package:yolda_app/infrastructure/models/home/only_limit/only_limit.dart';
 
@@ -20,6 +21,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final Completer<GoogleMapController> _controller = Completer();
   late final MarkerBloc _bloc;
+  bool isVisible = true;
 
   Future<void> getUserCameraPosition() async {
     final position = await Geolocator.getLastKnownPosition() ??
@@ -65,6 +67,16 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            setState(() {
+              isVisible = !isVisible;
+            });
+          },
+          child: Icon(
+            isVisible ? Icons.visibility_off : Icons.visibility,
+          ),
+        ),
         body: Stack(
           children: [
             Positioned.fill(
@@ -87,6 +99,11 @@ class _HomePageState extends State<HomePage> {
                     markers: state.maybeMap(
                       orElse: () => {},
                       success: (value) => value.markers,
+                    ),
+                    circles: state.maybeMap(
+                      orElse: () => {},
+                      success: (value) =>
+                          isVisible ? value.markers.toCircles() : {},
                     ),
                     onMapCreated: onMapCreated,
                     myLocationButtonEnabled: false,

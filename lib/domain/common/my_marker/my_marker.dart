@@ -12,9 +12,23 @@ class MyMarker extends Marker {
   });
 
   static late final void Function(MyMarker radar) onMarkerTapped;
+
   static late BitmapDescriptor markerIcon;
 
   static void setIcon(BitmapDescriptor icon) => markerIcon = icon;
+
+  List<Circle> toCircles() {
+    return [600, 300, 150, 50]
+        .map(
+          (e) => Circle(
+            circleId: CircleId("$markerId-$e"),
+            center: position,
+            radius: e.toDouble(),
+            strokeWidth: 2,
+          ),
+        )
+        .toList();
+  }
 
   @override
   VoidCallback? get onTap => () => onMarkerTapped(this);

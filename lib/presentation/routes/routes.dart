@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:yolda_app/infrastructure/services/connectivity.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
 import 'package:yolda_app/presentation/pages/auth/login/login_page.dart';
 import 'package:yolda_app/presentation/pages/auth/register/confirm_page.dart';

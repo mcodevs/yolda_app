@@ -8,10 +8,9 @@ import 'package:yolda_app/infrastructure/services/tts_service.dart';
 class Geofencing {
   static late final GeofenceService _service;
 
-  static String? currentRadar;
+  static String? _currentRadar;
 
-  static void initialize() =>
-      _service = GeofenceService.instance.setup(
+  static void initialize() => _service = GeofenceService.instance.setup(
         interval: 200,
         accuracy: 100,
         loiteringDelayMs: 6000,
@@ -40,15 +39,17 @@ class Geofencing {
     _service.clearGeofenceList();
   }
 
-
   static void listenRadar({
     required void Function(Radar radar, int distance) onInside,
     required void Function() onOutside,
+    required void Function(Radar radar, int distance) onOtherRadarDetected,
   }) {
-    _service.addGeofenceStatusChangeListener((Geofence geofence,
-        GeofenceRadius geofenceRadius,
-        GeofenceStatus geofenceStatus,
-        Location location,) async {
+    _service.addGeofenceStatusChangeListener((
+      Geofence geofence,
+      GeofenceRadius geofenceRadius,
+      GeofenceStatus geofenceStatus,
+      Location location,
+    ) async {
       final isInside = _isInside(
         radar: geofence,
         userLocation: location,
@@ -56,16 +57,18 @@ class Geofencing {
 
       if (geofenceStatus == GeofenceStatus.ENTER &&
           isInside &&
-          ((currentRadar == null) || (currentRadar == geofence.id))) {
+          ((_currentRadar == null) || (_currentRadar == geofence.id))) {
         TTSService.speakMeter(geofenceRadius.length.toInt());
-        currentRadar = geofence.id;
+        _currentRadar = geofence.id;
         onInside(geofence.data, geofenceRadius.length.toInt());
       } else if (geofenceStatus == GeofenceStatus.ENTER &&
           isInside &&
-          ((currentRadar != null) || (currentRadar != geofence.id))) {
+          ((_currentRadar != null) || (_currentRadar != geofence.id))) {
         TTSService.speakOtherRadar();
-      } else if (geofenceStatus == GeofenceStatus.EXIT && currentRadar == geofence.id) {
-        currentRadar = null;
+        onOtherRadarDetected(geofence.data, geofenceRadius.length.toInt());
+      } else if (geofenceStatus == GeofenceStatus.EXIT &&
+          _currentRadar == geofence.id) {
+        _currentRadar = null;
         onOutside();
       }
     });
