@@ -56,6 +56,7 @@ class _HomePageState extends State<HomePage> {
   void onMapCreated(controller) async {
     _controller.complete(controller);
     getUserCameraPosition();
+    speedChange();
   }
 
   Future<void> listenLocationChange() async {
@@ -87,7 +88,6 @@ class _HomePageState extends State<HomePage> {
       ..add(
         const MarkerEvent.getAllMarkers(),
       );
-    speedChange();
   }
 
   @override
@@ -180,7 +180,7 @@ class _HomePageState extends State<HomePage> {
                     myLocationButtonEnabled: false,
                     compassEnabled: false,
                     zoomControlsEnabled: false,
-                    myLocationEnabled: true,
+                    // myLocationEnabled: true,
                   );
                 },
               ),
