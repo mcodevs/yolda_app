@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
 
 part 'limit_and_radar.g.dart';
@@ -13,18 +13,24 @@ class LimitAndRadar extends Radar {
     required super.id,
     required super.territory,
     RadarType? type,
-    required super.speedLimit,
+    super.speedLimit,
     required super.location,
     required this.directionType,
     required this.data,
   }) : super(type: type ?? RadarType.limitAndRadar);
+
+  LimitAndRadar changeType(RadarType type, [int? speedLimit]) {
+    assert(type == RadarType.limitAndRadar && speedLimit != null ||
+        type == RadarType.onlyRadar && speedLimit == null);
+    return copyWith(type: type, speedLimit: speedLimit);
+  }
 
   @override
   LimitAndRadar copyWith({
     String? territory,
     RadarType? type,
     int? speedLimit,
-    LatLng? location,
+    Point? location,
     String? directionType,
     String? data,
   }) {

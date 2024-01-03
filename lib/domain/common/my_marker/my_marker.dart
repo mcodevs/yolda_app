@@ -1,38 +1,43 @@
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
 
-class MyMarker extends Marker {
+class MyMarker extends PlacemarkMapObject {
   final Radar radar;
 
   const MyMarker({
-    required super.markerId,
-    required super.position,
+    required super.mapId,
+    required super.point,
+    super.zIndex,
+    super.onDragStart,
+    super.onDrag,
+    super.onDragEnd,
+    super.consumeTapEvents,
+    super.isVisible,
+    super.isDraggable,
+    super.icon,
+    super.opacity,
+    super.direction,
+    super.text,
     required this.radar,
   });
 
-  static late final void Function(MyMarker radar) onMarkerTapped;
+  static late void Function(MyMarker marker) onMarkerTapped;
 
-  static late BitmapDescriptor markerIcon;
+  @override
+  TapCallback<PlacemarkMapObject>? get onTap =>
+      (mapObject, point) => onMarkerTapped(this);
 
-  static void setIcon(BitmapDescriptor icon) => markerIcon = icon;
-
-  List<Circle> toCircles() {
+  List<CircleMapObject> toCircles() {
     return [600, 300, 150, 50]
         .map(
-          (e) => Circle(
-            circleId: CircleId("$markerId-$e"),
-            center: position,
-            radius: e.toDouble(),
+          (e) => CircleMapObject(
+            mapId: MapObjectId("$mapId-$e"),
+            circle: Circle(center: point, radius: e.toDouble()),
             strokeWidth: 2,
+            fillColor: Colors.transparent,
           ),
         )
         .toList();
   }
-
-  @override
-  VoidCallback? get onTap => () => onMarkerTapped(this);
-
-  @override
-  BitmapDescriptor get icon => markerIcon;
 }

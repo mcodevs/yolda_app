@@ -46,6 +46,9 @@ dependencies:
   freezed_annotation: ^2.4.1
   json_annotation: ^4.8.1
   uuid: ^4.2.2
+  yandex_mapkit: ^3.4.0
+  flutter_compass: ^0.8.0
+  just_audio: ^0.9.36
 
 
 
@@ -67,6 +70,7 @@ flutter:
     - assets/translations/
     - assets/images/
     - assets/icons/
+    - assets/sounds/
 
   fonts:
     - family: RaviPrakash

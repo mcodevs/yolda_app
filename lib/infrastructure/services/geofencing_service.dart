@@ -13,7 +13,7 @@ class Geofencing {
   static void initialize() => _service = GeofenceService.instance.setup(
         interval: 200,
         accuracy: 100,
-        loiteringDelayMs: 6000,
+        loiteringDelayMs: 600,
         statusChangeDelayMs: 1000,
         useActivityRecognition: true,
         allowMockLocations: false,
@@ -58,7 +58,10 @@ class Geofencing {
       if (geofenceStatus == GeofenceStatus.ENTER &&
           isInside &&
           ((_currentRadar == null) || (_currentRadar == geofence.id))) {
-        TTSService.speakMeter(geofenceRadius.length.toInt());
+        await TTSService.speakMeter(geofenceRadius.length.toInt());
+        if (geofenceRadius.length == 150) {
+          TTSService.beepSound();
+        }
         _currentRadar = geofence.id;
         onInside(geofence.data, geofenceRadius.length.toInt());
       } else if (geofenceStatus == GeofenceStatus.ENTER &&
@@ -69,6 +72,7 @@ class Geofencing {
       } else if (geofenceStatus == GeofenceStatus.EXIT &&
           _currentRadar == geofence.id) {
         _currentRadar = null;
+        TTSService.speakWhenOutside();
         onOutside();
       }
     });

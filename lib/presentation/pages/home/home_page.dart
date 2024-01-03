@@ -1,15 +1,17 @@
 import 'dart:async';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_compass/flutter_compass.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/application/home/bloc/marker_bloc.dart';
-import 'package:yolda_app/domain/common/extensions/set_extension.dart';
+import 'package:yolda_app/domain/common/enums/location_state.dart';
+import 'package:yolda_app/domain/common/extensions/position_extension.dart';
 import 'package:yolda_app/infrastructure/implementations/radar_service/fake_radar_service.dart';
-import 'package:yolda_app/infrastructure/models/home/only_limit/only_limit.dart';
+import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
+import 'package:yolda_app/infrastructure/services/log_service.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -19,66 +21,73 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  final Completer<GoogleMapController> _controller = Completer();
-  StreamSubscription? subscription;
+  /// Yandex Map Controller
+  final Completer<YandexMapController> _controller = Completer();
+
+  /// Subscription for speed
+  StreamSubscription? speedSubscription;
+
+  /// Sunscription for camera
+  StreamSubscription? cameraSubscription;
+
+  /// Variable for speed changes
   final ValueNotifier<int> speed = ValueNotifier(0);
+
+  /// Current location state
+  final ValueNotifier<LocationState> locationState =
+      ValueNotifier(LocationState.notFixed);
+
+  /// Bloc
   late final MarkerBloc _bloc;
-  bool isVisible = true;
 
-  Future<void> getUserCameraPosition() async {
-    final position = await Geolocator.getLastKnownPosition() ??
-        await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.bestForNavigation,
-        );
-    final controller = await _controller.future;
-    controller.animateCamera(
-      CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: LatLng(position.latitude, position.longitude),
-          zoom: 16,
-          tilt: 90,
-          bearing: position.heading,
-        ),
-      ),
+  /// Callback when map created
+  void onMapCreated(YandexMapController controller) async {
+    // Complete the future
+    _controller.complete(controller);
+
+    await controller.toggleTrafficLayer(
+      visible: true,
     );
-  }
 
-  void speedChange() {
-    Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
+    // Assign subscription value
+    speedSubscription = Geolocator.getPositionStream(
+      locationSettings: AndroidSettings(
         accuracy: LocationAccuracy.bestForNavigation,
+        distanceFilter: 1,
+        foregroundNotificationConfig: const ForegroundNotificationConfig(
+          notificationTitle: "Joylashuv xizmati yoniq",
+          notificationText: "Ilovaga kirish uchun bosing",
+        ),
+        intervalDuration: Duration.zero,
       ),
     ).listen((event) {
-      speed.value = (event.speed * 3.6).round();
+      final speedValue = (event.speed * 3.6).toInt();
+      speed.value = speedValue;
     });
-  }
 
-  void onMapCreated(controller) async {
-    _controller.complete(controller);
-    getUserCameraPosition();
-    speedChange();
-  }
-
-  Future<void> listenLocationChange() async {
-    final controller = await _controller.future;
-    subscription = Geolocator.getPositionStream(
-      locationSettings: const LocationSettings(
+    cameraSubscription = Geolocator.getPositionStream(
+      locationSettings: AndroidSettings(
         accuracy: LocationAccuracy.bestForNavigation,
+        distanceFilter: 1,
+        foregroundNotificationConfig: const ForegroundNotificationConfig(
+          notificationTitle: "Joylashuv xizmati yoniq",
+          notificationText: "Ilovaga kirish uchun bosing",
+        ),
+        intervalDuration: Duration.zero,
       ),
-    ).listen(
-      (event) {
-        controller.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(event.latitude, event.longitude),
-              zoom: 17,
-              tilt: 90,
-              bearing: event.heading,
-            ),
+    ).listen((event) async {
+      await controller.moveCamera(
+        CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: event.toPoint(),
+            tilt: 90,
+            azimuth: event.heading,
+            zoom: 17,
           ),
-        );
-      },
-    );
+        ),
+        animation: const MapAnimation(duration: 1),
+      );
+    });
   }
 
   @override
@@ -102,85 +111,72 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        floatingActionButton: Padding(
-          padding: const EdgeInsets.only(bottom: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              FloatingActionButton(
-                onPressed: () async {
-                  if (subscription == null) {
-                    await listenLocationChange();
-                  } else if (subscription!.isPaused) {
-                    subscription!.resume();
-                  } else {
-                    subscription!.pause();
-                  }
-                  setState(() {});
-                },
-                child: Icon(
-                  subscription == null ||
-                          (subscription != null && subscription!.isPaused)
-                      ? Icons.gps_not_fixed
-                      : Icons.gps_fixed,
-                ),
-              ),
-              FloatingActionButton(
-                onPressed: () {},
-                child: ValueListenableBuilder(
-                  valueListenable: speed,
-                  builder: (context, value, _) {
-                    return Text("$value");
-                  },
-                ),
-              ),
-              FloatingActionButton(
-                onPressed: () {
-                  setState(() {
-                    isVisible = !isVisible;
-                  });
-                },
-                child: Icon(
-                  isVisible ? Icons.visibility_off : Icons.visibility,
-                ),
-              ),
-            ],
-          ),
-        ),
         body: Stack(
           children: [
             Positioned.fill(
               child: BlocBuilder<MarkerBloc, MarkerState>(
-                bloc: _bloc,
                 builder: (context, state) {
-                  return GoogleMap(
-                    onTap: (argument) {
-                      final radar = OnlyLimit(
-                        id: const Uuid().v4(),
-                        territory: "1",
-                        speedLimit: Random().nextInt(80) + 20,
-                        location: argument,
+                  return StreamBuilder<Position>(
+                    stream: Geolocator.getPositionStream(
+                      locationSettings: AndroidSettings(
+                        accuracy: LocationAccuracy.bestForNavigation,
+                        intervalDuration: Duration.zero,
+                        distanceFilter: 1,
+                      ),
+                    ),
+                    builder: (context, posSnapshot) {
+                      if (posSnapshot.hasError) {
+                        LogService.e(posSnapshot.error.toString());
+                      }
+                      return StreamBuilder<CompassEvent>(
+                        stream: FlutterCompass.events,
+                        builder: (context, snapshot) {
+                          return YandexMap(
+                            onMapTap: (argument) {
+                              final radar = Radar.limitAndRadar(
+                                id: const Uuid().v4(),
+                                territory: "1",
+                                type: RadarType.limitAndRadar,
+                                location: argument,
+                                speedLimit: 70,
+                                data: "Salom",
+                                directionType: "1",
+                              );
+                              _bloc.add(MarkerEvent.createMarker(radar: radar));
+                            },
+                            mapObjects: state
+                                .maybeMap<List<PlacemarkMapObject>>(
+                              orElse: () => [],
+                              success: (value) => value.markers
+                                  .cast<PlacemarkMapObject>()
+                                  .toList(),
+                            )..add(
+                                PlacemarkMapObject(
+                                  mapId: const MapObjectId("user"),
+                                  point: posSnapshot.data != null
+                                      ? posSnapshot.data!.toPoint()
+                                      : const Point(latitude: 0, longitude: 0),
+                                  icon: PlacemarkIcon.single(
+                                    PlacemarkIconStyle(
+                                      image: BitmapDescriptor.fromAssetImage(
+                                          "assets/icons/navigator.png"),
+                                      rotationType: RotationType.rotate,
+                                      isFlat: true,
+                                    ),
+                                  ),
+                                  opacity: 0.8,
+                                  direction: snapshot.data != null
+                                      ? (snapshot.data!.heading!.isNegative
+                                          ? 360 + snapshot.data!.heading!
+                                          : snapshot.data!.heading!)
+                                      : 0,
+                                ),
+                              ),
+                            onMapCreated: onMapCreated,
+                          );
+                        },
                       );
-                      _bloc.add(MarkerEvent.createMarker(radar: radar));
                     },
-                    initialCameraPosition: const CameraPosition(
-                      target: LatLng(41.31237, 69.159152),
-                    ),
-                    markers: state.maybeMap(
-                      orElse: () => {},
-                      success: (value) => value.markers,
-                    ),
-                    circles: state.maybeMap(
-                      orElse: () => {},
-                      success: (value) =>
-                          isVisible ? value.markers.toCircles() : {},
-                    ),
-                    onMapCreated: onMapCreated,
-                    myLocationButtonEnabled: false,
-                    compassEnabled: false,
-                    zoomControlsEnabled: false,
-                    // myLocationEnabled: true,
                   );
                 },
               ),

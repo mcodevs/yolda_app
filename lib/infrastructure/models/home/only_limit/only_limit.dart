@@ -1,5 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/infrastructure/models/home/radar/radar.dart';
 
 part 'only_limit.g.dart';
@@ -19,7 +19,7 @@ class OnlyLimit extends Radar {
     String? territory,
     RadarType? type,
     int? speedLimit,
-    LatLng? location,
+    Point? location,
   }) {
     return OnlyLimit(
       id: id,

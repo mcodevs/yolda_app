@@ -1,8 +1,8 @@
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/domain/common/my_marker/my_marker.dart';
 
 extension ToCircle on Set<MyMarker> {
-  Set<Circle> toCircles() {
+  Set<CircleMapObject> toCircles() {
     return map((e) => e.toCircles())
         .expand((element) => element)
         .toList()

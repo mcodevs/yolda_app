@@ -1,22 +1,24 @@
-
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:geofence_service/geofence_service.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:yolda_app/domain/common/my_marker/my_marker.dart';
 
 import 'package:yolda_app/infrastructure/models/home/limit_and_radar/limit_and_radar.dart';
-import 'package:yolda_app/domain/common/my_marker/my_marker.dart';
 import 'package:yolda_app/infrastructure/models/home/only_limit/only_limit.dart';
 
 enum RadarType {
   @JsonValue("only-limit")
   onlyLimit,
   @JsonValue("limit-and-radar")
-  limitAndRadar;
+  limitAndRadar,
+  @JsonValue("only-radar")
+  onlyRadar;
 
   static RadarType fromString(String type) {
     return switch (type) {
       "only-limit" => RadarType.onlyLimit,
       "limit-and-radar" => RadarType.limitAndRadar,
+      "only-radar" => RadarType.onlyRadar,
       _ => RadarType.onlyLimit,
     };
   }
@@ -28,29 +30,36 @@ abstract class Radar with _RadarModelPatternMatcher {
   final String territory;
   final RadarType type;
   @JsonKey(name: "speed_limit")
-  final int speedLimit;
-  @LatLngJsonConverter()
-  final LatLng location;
+  final int? speedLimit;
+  @PointJsonConverter()
+  final Point location;
 
   const Radar({
     required this.id,
     required this.territory,
     required this.type,
-    required this.speedLimit,
     required this.location,
+    this.speedLimit,
   });
 
   Radar copyWith({
     String? territory,
     int? speedLimit,
-    LatLng? location,
+    Point? location,
   });
 
-  MyMarker toMarker() => MyMarker(
-        markerId: MarkerId(id),
-        position: location,
-        radar: this,
-      );
+  MyMarker toMarker() {
+    return MyMarker(
+      mapId: MapObjectId(id),
+      point: location,
+      radar: this,
+      icon: PlacemarkIcon.single(
+        PlacemarkIconStyle(
+          image: BitmapDescriptor.fromAssetImage("assets/icons/camera.png"),
+        ),
+      ),
+    );
+  }
 
   Geofence toGeofence() => Geofence(
         id: id,
@@ -69,24 +78,25 @@ abstract class Radar with _RadarModelPatternMatcher {
     required String id,
     required String territory,
     required RadarType type,
+    required Point location,
     required int speedLimit,
-    required LatLng location,
   }) = OnlyLimit;
 
   const factory Radar.limitAndRadar({
     required String id,
     required String territory,
     required RadarType type,
-    required int speedLimit,
-    required LatLng location,
+    required Point location,
     required String data,
     required String directionType,
+    int speedLimit,
   }) = LimitAndRadar;
 
   factory Radar.fromJson(Map<String, Object?> json) {
     return switch (RadarType.fromString(json['type'] as String)) {
       RadarType.limitAndRadar => LimitAndRadar.fromJson(json),
       RadarType.onlyLimit => OnlyLimit.fromJson(json),
+      RadarType.onlyRadar => LimitAndRadar.fromJson(json),
     };
   }
 
@@ -114,18 +124,19 @@ abstract class Radar with _RadarModelPatternMatcher {
   int get hashCode => id.hashCode;
 }
 
-class LatLngJsonConverter extends JsonConverter<LatLng, List> {
-  const LatLngJsonConverter();
-
+class PointJsonConverter extends JsonConverter<Point, List> {
+  const PointJsonConverter();
   @override
-  LatLng fromJson(List json) {
-    return LatLng(json[0] as double, json[1] as double);
+  Point fromJson(List json) {
+    final arguments = json.cast<double>();
+    return Point(
+      latitude: arguments.first,
+      longitude: arguments.last,
+    );
   }
 
   @override
-  List toJson(LatLng object) {
-    return [object.latitude, object.longitude];
-  }
+  List toJson(Point object) => [object.latitude, object.longitude];
 }
 
 mixin _RadarModelPatternMatcher {
@@ -134,4 +145,3 @@ mixin _RadarModelPatternMatcher {
     required T Function(LimitAndRadar value) onLimitAndRadar,
   });
 }
-
