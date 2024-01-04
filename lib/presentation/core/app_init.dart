@@ -24,6 +24,6 @@ class AppInit {
     ]);
     // DBService.storage.clear(); //  Uncomment this line for clear local storage
     LogService.create;
-    Geofencing.initialize();
+    // Geofencing.initialize();
   }
 }
