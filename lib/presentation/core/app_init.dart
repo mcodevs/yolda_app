@@ -20,13 +20,9 @@ class AppInit {
       DBService.initialize(),
       EasyLocalization.ensureInitialized(),
       RemoteConfigService.initialize(),
-      ConnectivityService.checkInternet(),
       TTSService.initialize(),
-      GetIcon.initialize(),
     ]);
-
-    DBService.storage.clear(); //  Uncomment this line for clear local storage
-
+    // DBService.storage.clear(); //  Uncomment this line for clear local storage
     LogService.create;
     Geofencing.initialize();
   }

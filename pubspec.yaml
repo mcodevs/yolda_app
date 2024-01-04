@@ -49,6 +49,7 @@ dependencies:
   yandex_mapkit: ^3.4.0
   flutter_compass: ^0.8.0
   just_audio: ^0.9.36
+  cloud_firestore: ^4.13.6
 
 
 
