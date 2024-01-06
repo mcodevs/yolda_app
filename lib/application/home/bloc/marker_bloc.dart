@@ -12,8 +12,9 @@ part 'marker_state.dart';
 part 'marker_bloc.freezed.dart';
 
 class MarkerBloc extends Bloc<MarkerEvent, MarkerState> {
+  final ValueNotifier<String> listenRadar;
   final RadarServiceRepo _repository;
-  MarkerBloc({required RadarServiceRepo repository})
+  MarkerBloc({required RadarServiceRepo repository, required this.listenRadar})
       : _repository = repository,
         super(const MarkerState.loading()) {
     MyMarker.onMarkerTapped = onTapForMarkers;
@@ -48,13 +49,14 @@ class MarkerBloc extends Bloc<MarkerEvent, MarkerState> {
     Geofencing.getRadars(radars);
     Geofencing.listenRadar(
       onInside: (radar, distance) {
-        LogService.i("Radar ichidasan");
+        listenRadar.value = "Radar tezlik chegarasi: ${radar.speedLimit}\n"
+            "Qolgan masofa: $distance metr";
       },
       onOutside: () {
-        LogService.e("Radardan chiqding");
+        listenRadar.value = "";
       },
       onOtherRadarDetected: (radar, distance) {
-        LogService.d("Boshqa radar topildi");
+        listenRadar.value = "${listenRadar.value}\n Yo'lda yana radar bor";
       },
     );
     emit(MarkerState.success(markers.toSet()));

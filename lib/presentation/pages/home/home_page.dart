@@ -33,6 +33,9 @@ class _HomePageState extends State<HomePage> {
   /// Variable for speed changes
   final ValueNotifier<int> speed = ValueNotifier(0);
 
+  /// Listen radar events
+  final ValueNotifier<String> listenRadar = ValueNotifier("");
+
   /// Current location state
   final ValueNotifier<LocationState> locationState =
       ValueNotifier(LocationState.notFixed);
@@ -93,8 +96,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    _bloc = MarkerBloc(repository: FakeRadarService())
-      ..add(
+    _bloc = MarkerBloc(
+      repository: FakeRadarService(),
+      listenRadar: listenRadar,
+    )..add(
         const MarkerEvent.getAllMarkers(),
       );
   }
@@ -111,6 +116,16 @@ class _HomePageState extends State<HomePage> {
     return BlocProvider.value(
       value: _bloc,
       child: Scaffold(
+        floatingActionButton: Container(
+          padding: const EdgeInsets.all(24),
+          color: Colors.white,
+          child: ValueListenableBuilder(
+            valueListenable: speed,
+            builder: (context, value, child) {
+              return Text(value.toString());
+            },
+          ),
+        ),
         body: Stack(
           children: [
             Positioned.fill(
@@ -128,6 +143,7 @@ class _HomePageState extends State<HomePage> {
                       if (posSnapshot.hasError) {
                         LogService.e(posSnapshot.error.toString());
                       }
+                      speed.value = (posSnapshot.data!.speed * 3.6).toInt();
                       return StreamBuilder<CompassEvent>(
                         stream: FlutterCompass.events,
                         builder: (context, snapshot) {
