@@ -1,10 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:yolda_app/firebase_options.dart';
-import 'package:yolda_app/infrastructure/services/connectivity.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
-import 'package:yolda_app/infrastructure/services/geofencing_service.dart';
-import 'package:yolda_app/infrastructure/services/icon_manager.dart';
 import 'package:yolda_app/infrastructure/services/log_service.dart';
 import 'package:yolda_app/infrastructure/services/remote_config_service.dart';
 import 'package:yolda_app/infrastructure/services/tts_service.dart';
@@ -22,8 +19,10 @@ class AppInit {
       RemoteConfigService.initialize(),
       TTSService.initialize(),
     ]);
+
     // DBService.storage.clear(); //  Uncomment this line for clear local storage
     LogService.create;
-    // Geofencing.initialize();
+
+    LogService.i("App init success!");
   }
 }
