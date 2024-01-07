@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 
 class CustomFAB extends StatelessWidget {
   final double? radius;
   final Widget child;
   final VoidCallback onPressed;
-  final double size;
+  final double? size;
   final Color? color;
   final EdgeInsets padding;
 
@@ -14,7 +15,7 @@ class CustomFAB extends StatelessWidget {
     this.radius,
     required this.child,
     required this.onPressed,
-    required this.size,
+    this.size,
     this.color,
     this.padding = EdgeInsets.zero,
   });
@@ -23,7 +24,7 @@ class CustomFAB extends StatelessWidget {
   Widget build(BuildContext context) {
     return ThemeWrapper(builder: (colors, fonts, icons, controller) {
       return SizedBox.square(
-        dimension: size,
+        dimension: size ?? 60.r,
         child: ElevatedButton(
           style: ElevatedButton.styleFrom(
             elevation: 8,
