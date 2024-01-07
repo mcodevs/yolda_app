@@ -22,5 +22,7 @@ class DBService {
     await storage.setBool(_dark, mode == ThemeMode.dark ? true : false);
   }
 
- 
+  static Role? isLogged() {
+    return null;
+  }
 }

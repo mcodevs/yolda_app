@@ -1,14 +1,20 @@
 import 'package:yolda_app/domain/common/enums/role.dart';
 import 'package:yolda_app/domain/repositories/auth_service_repo.dart';
+import 'package:yolda_app/infrastructure/firebase/firebase_service.dart';
 import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
+import 'package:yolda_app/infrastructure/services/db_service.dart';
 
 class AuthServiceImpl extends AuthServiceRepository {
   UserModel? user;
+  late final Role? _role;
+
+  static FirebaseService _service = FirebaseService();
+  static DBService dbService = DBService();
 
   @override
-  Future<Role?> checkLogged() {
-    // TODO: implement checkLogged
-    throw UnimplementedError();
+  Role? checkLogged() {
+    _role = DBService.isLogged();
+    return _role;
   }
 
   @override
@@ -34,6 +40,5 @@ class AuthServiceImpl extends AuthServiceRepository {
   }
 
   @override
-  // TODO: implement role
-  Role? get role => throw UnimplementedError();
+  Role get role => _role!;
 }

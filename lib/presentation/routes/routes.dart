@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
-import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
-import 'package:yolda_app/infrastructure/services/db_service.dart';
+import 'package:yolda_app/domain/common/enums/role.dart';
+import 'package:yolda_app/presentation/pages/admin_home.dart/admin_home_page.dart';
 import 'package:yolda_app/presentation/pages/auth/login/login_page.dart';
 import 'package:yolda_app/presentation/pages/auth/register/confirm_page.dart';
 import 'package:yolda_app/presentation/pages/auth/register/register_page.dart';
+import 'package:yolda_app/presentation/pages/radar_admin_home/radar_admin_home_page.dart';
 import 'package:yolda_app/presentation/pages/user_home/user_home_page.dart';
 import 'package:yolda_app/presentation/pages/intro/intro_page.dart';
 
 abstract final class Routes {
   const Routes._();
-  static PageRoute getInitialRoute(BuildContext context) {
-    final service = context.read<AuthServiceImpl>();
-    if (service.role != null) {
-      return getHomePage();
-    } else {
-      return getIntroPage();
-    }
+  static PageRoute getInitialRoute(Role? role) {
+    return switch (role) {
+      Role.admin => getAdminHomePage(),
+      Role.radarAdmin => getRadarAdminPage(),
+      Role.user => getHomePage(),
+      _ => getIntroPage(),
+    };
   }
 
   static Future<void> checkAndPushHome(BuildContext context) async {
@@ -27,6 +28,7 @@ abstract final class Routes {
     ].request();
     if (permissions.values
         .every((element) => element == PermissionStatus.granted)) {
+      await Geolocator.getCurrentPosition();
       if (context.mounted) {
         Navigator.pushAndRemoveUntil(
           context,
@@ -38,7 +40,7 @@ abstract final class Routes {
   }
 
   static PageRoute getHomePage() => MaterialPageRoute(
-        builder: (context) => const HomePage(),
+        builder: (context) => const UserHomePage(),
       );
 
   static PageRoute getIntroPage() => MaterialPageRoute(
@@ -60,4 +62,16 @@ abstract final class Routes {
   static PageRoute getConfirmPage() => MaterialPageRoute(
         builder: (context) => const ConfirmPage(),
       );
+
+  static PageRoute getAdminHomePage() {
+    return MaterialPageRoute(
+      builder: (context) => const AdminHomePage(),
+    );
+  }
+
+  static PageRoute getRadarAdminPage() {
+    return MaterialPageRoute(
+      builder: (context) => const RadarAdminHomePage(),
+    );
+  }
 }

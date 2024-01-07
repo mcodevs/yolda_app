@@ -1,13 +1,13 @@
+import 'package:geofence_service/geofence_service.dart' hide Location;
 import 'package:json_annotation/json_annotation.dart';
 import 'package:uuid/uuid.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/infrastructure/models/home/core/location/location.dart';
 import 'package:yolda_app/infrastructure/models/home/core/location/location_converter.dart';
 import 'package:yolda_app/infrastructure/models/home/core/marker_type.dart';
+import 'package:yolda_app/infrastructure/models/home/radars/speed_radar.dart';
 
-part 'base_model.g.dart';
-
-@JsonSerializable()
-class BaseModel {
+abstract class BaseModel {
   final String id;
   final String name;
   final MarkerType type;
@@ -15,6 +15,16 @@ class BaseModel {
   final Location location;
 
   static const uuid = Uuid();
+  static const _$MarkerTypeEnumMap = {
+    MarkerType.speed: 'speed',
+    MarkerType.speedRadar: 'speed-radar',
+    MarkerType.beltRadar: 'belt-radar',
+    MarkerType.trafficRadar: 'traffic-radar',
+    MarkerType.carWash: 'car-wash',
+    MarkerType.fuelStation: 'fuel-station',
+    MarkerType.autoParts: 'auto-parts',
+    MarkerType.carRepair: 'car-repair',
+  };
 
   BaseModel({
     String? id,
@@ -24,22 +34,33 @@ class BaseModel {
   }) : id = id ?? uuid.v4();
 
   factory BaseModel.fromJson(Map<String, dynamic> json) =>
-      _$BaseModelFromJson(json);
+      switch ($enumDecode(_$MarkerTypeEnumMap, json['type'])) {
+        MarkerType.speed => SpeedRadar.fromJson(json), // Speed.fromJson(json),
+        MarkerType.speedRadar => SpeedRadar.fromJson(json),
+        MarkerType.beltRadar =>
+          SpeedRadar.fromJson(json), // BeltRadar.fromJson(json),
+        MarkerType.trafficRadar =>
+          SpeedRadar.fromJson(json), // TrafficRadar.fromJson(json),
+        MarkerType.carWash =>
+          SpeedRadar.fromJson(json), // CarWash.fromJson(json),
+        MarkerType.fuelStation =>
+          SpeedRadar.fromJson(json), // FuelStation.fromJson(json),
+        MarkerType.autoParts =>
+          SpeedRadar.fromJson(json), // AutoParts.fromJson(json),
+        MarkerType.carRepair =>
+          SpeedRadar.fromJson(json), // CarRepair.fromJson(json),
+      };
 
-  Map<String, dynamic> toJson() => _$BaseModelToJson(this);
+  Map<String, dynamic> toJson();
 
   BaseModel copyWith({
     String? name,
     MarkerType? type,
     Location? location,
-  }) {
-    return BaseModel(
-      id: id,
-      name: name ?? this.name,
-      type: type ?? this.type,
-      location: location ?? this.location,
-    );
-  }
+  });
+
+  PlacemarkMapObject toMarker();
+  Geofence toGeofence();
 
   @override
   String toString() {

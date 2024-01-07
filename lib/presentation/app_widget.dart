@@ -1,5 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 
@@ -29,7 +31,11 @@ class _AppWidgetState extends State<AppWidget> {
         // },
 
         /// Routes
-        onGenerateRoute: (settings) => Routes.getInitialRoute(context),
+        onGenerateRoute: (settings) {
+          return Routes.getInitialRoute(
+            context.read<AuthServiceImpl>().checkLogged(),
+          );
+        },
 
         /// App configs
         title: "Yo'lda",

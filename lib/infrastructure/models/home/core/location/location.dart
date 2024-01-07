@@ -1,13 +1,22 @@
 import 'dart:convert';
 
+import 'package:yandex_mapkit/yandex_mapkit.dart';
+
 class Location {
   final double latitude;
   final double longitude;
-  
+
   Location({
     required this.latitude,
     required this.longitude,
   });
+
+  Point toPoint() {
+    return Point(
+      latitude: latitude,
+      longitude: longitude,
+    );
+  }
 
   Location copyWith({
     double? latitude,
@@ -32,9 +41,6 @@ class Location {
       longitude: map['longitude']?.toDouble() ?? 0.0,
     );
   }
-
-
-  
 
   @override
   String toString() => 'Location(latitude: $latitude, longitude: $longitude)';
