@@ -18,6 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$UserHomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function(List<BaseModel> radars) getAllMarkers,
     required TResult Function(BaseModel radar) readMarker,
     required TResult Function(BaseModel radar) createMarker,
@@ -27,6 +28,7 @@ mixin _$UserHomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function(List<BaseModel> radars)? getAllMarkers,
     TResult? Function(BaseModel radar)? readMarker,
     TResult? Function(BaseModel radar)? createMarker,
@@ -36,6 +38,7 @@ mixin _$UserHomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function(List<BaseModel> radars)? getAllMarkers,
     TResult Function(BaseModel radar)? readMarker,
     TResult Function(BaseModel radar)? createMarker,
@@ -46,6 +49,7 @@ mixin _$UserHomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_GetAllMarkers value) getAllMarkers,
     required TResult Function(_AddMarker value) readMarker,
     required TResult Function(_RemoveMarker value) createMarker,
@@ -55,6 +59,7 @@ mixin _$UserHomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
     TResult? Function(_GetAllMarkers value)? getAllMarkers,
     TResult? Function(_AddMarker value)? readMarker,
     TResult? Function(_RemoveMarker value)? createMarker,
@@ -64,6 +69,7 @@ mixin _$UserHomeEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_GetAllMarkers value)? getAllMarkers,
     TResult Function(_AddMarker value)? readMarker,
     TResult Function(_RemoveMarker value)? createMarker,
@@ -90,6 +96,132 @@ class _$UserHomeEventCopyWithImpl<$Res, $Val extends UserHomeEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
+}
+
+/// @nodoc
+abstract class _$$InitialImplCopyWith<$Res> {
+  factory _$$InitialImplCopyWith(
+          _$InitialImpl value, $Res Function(_$InitialImpl) then) =
+      __$$InitialImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$InitialImplCopyWithImpl<$Res>
+    extends _$UserHomeEventCopyWithImpl<$Res, _$InitialImpl>
+    implements _$$InitialImplCopyWith<$Res> {
+  __$$InitialImplCopyWithImpl(
+      _$InitialImpl _value, $Res Function(_$InitialImpl) _then)
+      : super(_value, _then);
+}
+
+/// @nodoc
+
+class _$InitialImpl implements _Initial {
+  const _$InitialImpl();
+
+  @override
+  String toString() {
+    return 'UserHomeEvent.initial()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$InitialImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function(List<BaseModel> radars) getAllMarkers,
+    required TResult Function(BaseModel radar) readMarker,
+    required TResult Function(BaseModel radar) createMarker,
+    required TResult Function(BaseModel radar) updateMarker,
+    required TResult Function(String id) deleteMarker,
+  }) {
+    return initial();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function(List<BaseModel> radars)? getAllMarkers,
+    TResult? Function(BaseModel radar)? readMarker,
+    TResult? Function(BaseModel radar)? createMarker,
+    TResult? Function(BaseModel radar)? updateMarker,
+    TResult? Function(String id)? deleteMarker,
+  }) {
+    return initial?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function(List<BaseModel> radars)? getAllMarkers,
+    TResult Function(BaseModel radar)? readMarker,
+    TResult Function(BaseModel radar)? createMarker,
+    TResult Function(BaseModel radar)? updateMarker,
+    TResult Function(String id)? deleteMarker,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(_GetAllMarkers value) getAllMarkers,
+    required TResult Function(_AddMarker value) readMarker,
+    required TResult Function(_RemoveMarker value) createMarker,
+    required TResult Function(_UpdateMarker value) updateMarker,
+    required TResult Function(_DeleteMarker value) deleteMarker,
+  }) {
+    return initial(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(_GetAllMarkers value)? getAllMarkers,
+    TResult? Function(_AddMarker value)? readMarker,
+    TResult? Function(_RemoveMarker value)? createMarker,
+    TResult? Function(_UpdateMarker value)? updateMarker,
+    TResult? Function(_DeleteMarker value)? deleteMarker,
+  }) {
+    return initial?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(_GetAllMarkers value)? getAllMarkers,
+    TResult Function(_AddMarker value)? readMarker,
+    TResult Function(_RemoveMarker value)? createMarker,
+    TResult Function(_UpdateMarker value)? updateMarker,
+    TResult Function(_DeleteMarker value)? deleteMarker,
+    required TResult orElse(),
+  }) {
+    if (initial != null) {
+      return initial(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Initial implements UserHomeEvent {
+  const factory _Initial() = _$InitialImpl;
 }
 
 /// @nodoc
@@ -163,6 +295,7 @@ class _$GetAllMarkersImpl implements _GetAllMarkers {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function(List<BaseModel> radars) getAllMarkers,
     required TResult Function(BaseModel radar) readMarker,
     required TResult Function(BaseModel radar) createMarker,
@@ -175,6 +308,7 @@ class _$GetAllMarkersImpl implements _GetAllMarkers {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function(List<BaseModel> radars)? getAllMarkers,
     TResult? Function(BaseModel radar)? readMarker,
     TResult? Function(BaseModel radar)? createMarker,
@@ -187,6 +321,7 @@ class _$GetAllMarkersImpl implements _GetAllMarkers {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function(List<BaseModel> radars)? getAllMarkers,
     TResult Function(BaseModel radar)? readMarker,
     TResult Function(BaseModel radar)? createMarker,
@@ -203,6 +338,7 @@ class _$GetAllMarkersImpl implements _GetAllMarkers {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_GetAllMarkers value) getAllMarkers,
     required TResult Function(_AddMarker value) readMarker,
     required TResult Function(_RemoveMarker value) createMarker,
@@ -215,6 +351,7 @@ class _$GetAllMarkersImpl implements _GetAllMarkers {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
     TResult? Function(_GetAllMarkers value)? getAllMarkers,
     TResult? Function(_AddMarker value)? readMarker,
     TResult? Function(_RemoveMarker value)? createMarker,
@@ -227,6 +364,7 @@ class _$GetAllMarkersImpl implements _GetAllMarkers {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_GetAllMarkers value)? getAllMarkers,
     TResult Function(_AddMarker value)? readMarker,
     TResult Function(_RemoveMarker value)? createMarker,
@@ -315,6 +453,7 @@ class _$AddMarkerImpl implements _AddMarker {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function(List<BaseModel> radars) getAllMarkers,
     required TResult Function(BaseModel radar) readMarker,
     required TResult Function(BaseModel radar) createMarker,
@@ -327,6 +466,7 @@ class _$AddMarkerImpl implements _AddMarker {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function(List<BaseModel> radars)? getAllMarkers,
     TResult? Function(BaseModel radar)? readMarker,
     TResult? Function(BaseModel radar)? createMarker,
@@ -339,6 +479,7 @@ class _$AddMarkerImpl implements _AddMarker {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function(List<BaseModel> radars)? getAllMarkers,
     TResult Function(BaseModel radar)? readMarker,
     TResult Function(BaseModel radar)? createMarker,
@@ -355,6 +496,7 @@ class _$AddMarkerImpl implements _AddMarker {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_GetAllMarkers value) getAllMarkers,
     required TResult Function(_AddMarker value) readMarker,
     required TResult Function(_RemoveMarker value) createMarker,
@@ -367,6 +509,7 @@ class _$AddMarkerImpl implements _AddMarker {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
     TResult? Function(_GetAllMarkers value)? getAllMarkers,
     TResult? Function(_AddMarker value)? readMarker,
     TResult? Function(_RemoveMarker value)? createMarker,
@@ -379,6 +522,7 @@ class _$AddMarkerImpl implements _AddMarker {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_GetAllMarkers value)? getAllMarkers,
     TResult Function(_AddMarker value)? readMarker,
     TResult Function(_RemoveMarker value)? createMarker,
@@ -466,6 +610,7 @@ class _$RemoveMarkerImpl implements _RemoveMarker {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function(List<BaseModel> radars) getAllMarkers,
     required TResult Function(BaseModel radar) readMarker,
     required TResult Function(BaseModel radar) createMarker,
@@ -478,6 +623,7 @@ class _$RemoveMarkerImpl implements _RemoveMarker {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function(List<BaseModel> radars)? getAllMarkers,
     TResult? Function(BaseModel radar)? readMarker,
     TResult? Function(BaseModel radar)? createMarker,
@@ -490,6 +636,7 @@ class _$RemoveMarkerImpl implements _RemoveMarker {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function(List<BaseModel> radars)? getAllMarkers,
     TResult Function(BaseModel radar)? readMarker,
     TResult Function(BaseModel radar)? createMarker,
@@ -506,6 +653,7 @@ class _$RemoveMarkerImpl implements _RemoveMarker {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_GetAllMarkers value) getAllMarkers,
     required TResult Function(_AddMarker value) readMarker,
     required TResult Function(_RemoveMarker value) createMarker,
@@ -518,6 +666,7 @@ class _$RemoveMarkerImpl implements _RemoveMarker {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
     TResult? Function(_GetAllMarkers value)? getAllMarkers,
     TResult? Function(_AddMarker value)? readMarker,
     TResult? Function(_RemoveMarker value)? createMarker,
@@ -530,6 +679,7 @@ class _$RemoveMarkerImpl implements _RemoveMarker {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_GetAllMarkers value)? getAllMarkers,
     TResult Function(_AddMarker value)? readMarker,
     TResult Function(_RemoveMarker value)? createMarker,
@@ -618,6 +768,7 @@ class _$UpdateMarkerImpl implements _UpdateMarker {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function(List<BaseModel> radars) getAllMarkers,
     required TResult Function(BaseModel radar) readMarker,
     required TResult Function(BaseModel radar) createMarker,
@@ -630,6 +781,7 @@ class _$UpdateMarkerImpl implements _UpdateMarker {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function(List<BaseModel> radars)? getAllMarkers,
     TResult? Function(BaseModel radar)? readMarker,
     TResult? Function(BaseModel radar)? createMarker,
@@ -642,6 +794,7 @@ class _$UpdateMarkerImpl implements _UpdateMarker {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function(List<BaseModel> radars)? getAllMarkers,
     TResult Function(BaseModel radar)? readMarker,
     TResult Function(BaseModel radar)? createMarker,
@@ -658,6 +811,7 @@ class _$UpdateMarkerImpl implements _UpdateMarker {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_GetAllMarkers value) getAllMarkers,
     required TResult Function(_AddMarker value) readMarker,
     required TResult Function(_RemoveMarker value) createMarker,
@@ -670,6 +824,7 @@ class _$UpdateMarkerImpl implements _UpdateMarker {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
     TResult? Function(_GetAllMarkers value)? getAllMarkers,
     TResult? Function(_AddMarker value)? readMarker,
     TResult? Function(_RemoveMarker value)? createMarker,
@@ -682,6 +837,7 @@ class _$UpdateMarkerImpl implements _UpdateMarker {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_GetAllMarkers value)? getAllMarkers,
     TResult Function(_AddMarker value)? readMarker,
     TResult Function(_RemoveMarker value)? createMarker,
@@ -770,6 +926,7 @@ class _$DeleteMarkerImpl implements _DeleteMarker {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() initial,
     required TResult Function(List<BaseModel> radars) getAllMarkers,
     required TResult Function(BaseModel radar) readMarker,
     required TResult Function(BaseModel radar) createMarker,
@@ -782,6 +939,7 @@ class _$DeleteMarkerImpl implements _DeleteMarker {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
     TResult? Function(List<BaseModel> radars)? getAllMarkers,
     TResult? Function(BaseModel radar)? readMarker,
     TResult? Function(BaseModel radar)? createMarker,
@@ -794,6 +952,7 @@ class _$DeleteMarkerImpl implements _DeleteMarker {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
     TResult Function(List<BaseModel> radars)? getAllMarkers,
     TResult Function(BaseModel radar)? readMarker,
     TResult Function(BaseModel radar)? createMarker,
@@ -810,6 +969,7 @@ class _$DeleteMarkerImpl implements _DeleteMarker {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
     required TResult Function(_GetAllMarkers value) getAllMarkers,
     required TResult Function(_AddMarker value) readMarker,
     required TResult Function(_RemoveMarker value) createMarker,
@@ -822,6 +982,7 @@ class _$DeleteMarkerImpl implements _DeleteMarker {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
     TResult? Function(_GetAllMarkers value)? getAllMarkers,
     TResult? Function(_AddMarker value)? readMarker,
     TResult? Function(_RemoveMarker value)? createMarker,
@@ -834,6 +995,7 @@ class _$DeleteMarkerImpl implements _DeleteMarker {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
     TResult Function(_GetAllMarkers value)? getAllMarkers,
     TResult Function(_AddMarker value)? readMarker,
     TResult Function(_RemoveMarker value)? createMarker,

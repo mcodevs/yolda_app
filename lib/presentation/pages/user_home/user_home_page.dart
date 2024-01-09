@@ -37,7 +37,10 @@ class _UserHomePageState extends State<UserHomePage> {
   @override
   void initState() {
     super.initState();
-    _bloc = UserHomeBloc();
+    _bloc = UserHomeBloc()
+      ..add(
+        const UserHomeEvent.initial(),
+      );
   }
 
   @override

@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "635483447483",
-    "project_id": "yolda-app",
-    "storage_bucket": "yolda-app.appspot.com"
+    "project_number": "461985112469",
+    "project_id": "yolda-94225",
+    "storage_bucket": "yolda-94225.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:635483447483:android:74d6b8ac870331359a099e",
+        "mobilesdk_app_id": "1:461985112469:android:ef6f74f08fd6b84438d69c",
         "android_client_info": {
           "package_name": "com.mcodevs.yolda_app"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyC_RsNysY_mMEJPbFKq-xak8JyPmJGt6Ss"
+          "current_key": "AIzaSyDknpZ0XGebeqrtM_H4eh9UD6I8vhgPF5o"
         }
       ],
       "services": {

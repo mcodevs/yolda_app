@@ -50,19 +50,19 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyC_RsNysY_mMEJPbFKq-xak8JyPmJGt6Ss',
-    appId: '1:635483447483:android:74d6b8ac870331359a099e',
-    messagingSenderId: '635483447483',
-    projectId: 'yolda-app',
-    storageBucket: 'yolda-app.appspot.com',
+    apiKey: 'AIzaSyDknpZ0XGebeqrtM_H4eh9UD6I8vhgPF5o',
+    appId: '1:461985112469:android:ef6f74f08fd6b84438d69c',
+    messagingSenderId: '461985112469',
+    projectId: 'yolda-94225',
+    storageBucket: 'yolda-94225.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDUahPwXmaU2Vi5_D6IgTvK2DhWAe9xzzE',
-    appId: '1:635483447483:ios:fe28ecdbac2815e79a099e',
-    messagingSenderId: '635483447483',
-    projectId: 'yolda-app',
-    storageBucket: 'yolda-app.appspot.com',
-    iosBundleId: 'com.mcodevs.yoldaApp',
+    apiKey: 'AIzaSyBuTqP-oFztEaIrXAvIyXk_iteSrokg8Xw',
+    appId: '1:461985112469:ios:9917807831e76c1938d69c',
+    messagingSenderId: '461985112469',
+    projectId: 'yolda-94225',
+    storageBucket: 'yolda-94225.appspot.com',
+    iosBundleId: 'com.yolda.app',
   );
 }
