@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
 import 'package:yolda_app/presentation/pages/auth/widgets/custom_pinput.dart';
@@ -28,11 +29,9 @@ class ConfirmPage extends StatefulWidget {
 
 class _ConfirmPageState extends State<ConfirmPage> {
   late final TextEditingController pinController;
-  late final AuthServiceRepository authServiceImpl;
 
   @override
   void initState() {
-    authServiceImpl = AuthServiceImpl();
     pinController = TextEditingController();
     super.initState();
   }
@@ -84,7 +83,7 @@ class _ConfirmPageState extends State<ConfirmPage> {
                         password: pinController.text,
                         carNumber: widget.carNumber,
                       );
-                      await authServiceImpl
+                      await context.read<AuthServiceImpl>()
                           .register(userModel: userModel)
                           .then((value) {
                         Routes.checkAndPushHome(context);

@@ -81,7 +81,6 @@ class _UserHomePageState extends State<UserHomePage> {
                   );
                 },
                 onSuccess: (context, radars) {
-                  _bloc.add(UserHomeEvent.getAllMarkers(radars: radars));
                   return ValueListenableBuilder(
                     valueListenable: isUserDetected,
                     builder: (context, value, child) {
@@ -112,36 +111,39 @@ class _UserHomePageState extends State<UserHomePage> {
                                 onCameraPositionChanged:
                                     (cameraPosition, reason, finished) {
                                   if (!finished &&
-                                      reason == CameraUpdateReason.gestures) {
+                                      reason == CameraUpdateReason.gestures &&
+                                      locationState.value ==
+                                          LocationState.fixed) {
                                     locationState.value =
                                         LocationState.notFixed;
                                   }
                                 },
-                                mapObjects: value
-                                    ? [
-                                        PlacemarkMapObject(
-                                          mapId: const MapObjectId("user"),
-                                          point: snapshot.data != null
-                                              ? snapshot.data!.toPoint()
-                                              : const Point(
-                                                  latitude: 0,
-                                                  longitude: 0,
-                                                ),
-                                          direction: heading,
-                                          opacity: 0.9,
-                                          icon: PlacemarkIcon.single(
-                                            PlacemarkIconStyle(
-                                              image: BitmapDescriptor
-                                                  .fromAssetImage(
-                                                "assets/icons/navigator.png",
-                                              ),
-                                              isFlat: true,
-                                              rotationType: RotationType.rotate,
+                                mapObjects: [
+                                  ...radars,
+                                  if (value) ...[
+                                    PlacemarkMapObject(
+                                      mapId: const MapObjectId("user"),
+                                      point: snapshot.data != null
+                                          ? snapshot.data!.toPoint()
+                                          : const Point(
+                                              latitude: 0,
+                                              longitude: 0,
                                             ),
+                                      direction: heading,
+                                      opacity: 0.9,
+                                      icon: PlacemarkIcon.single(
+                                        PlacemarkIconStyle(
+                                          image:
+                                              BitmapDescriptor.fromAssetImage(
+                                            "assets/icons/navigator.png",
                                           ),
-                                        )
-                                      ]
-                                    : [],
+                                          isFlat: true,
+                                          rotationType: RotationType.rotate,
+                                        ),
+                                      ),
+                                    )
+                                  ]
+                                ],
                                 onMapTap: (argument) {
                                   final radar = SpeedRadar(
                                     name: "test",
@@ -183,6 +185,9 @@ class _UserHomePageState extends State<UserHomePage> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           PositionHomeWidget(
+                            isUserDetected: isUserDetected,
+                            locationState: locationState,
+                            controller: _controller,
                             onError: (context, message) {
                               return Center(
                                 child: Text(message),
@@ -327,7 +332,7 @@ class _HomeFABWidgetsState extends State<HomeFABWidgets> {
               radius: 15,
               onPressed: () async {
                 await context.read<AuthServiceImpl>().logOut();
-                if(mounted){
+                if (mounted) {
                   Navigator.pushAndRemoveUntil(
                     context,
                     Routes.getIntroPage(),
@@ -366,37 +371,7 @@ class _HomeFABWidgetsState extends State<HomeFABWidgets> {
               ),
               onPressed: () async {
                 widget.locationState.value.map(
-                  onFixed: () async {
-                    if (streamSubscription == null) {
-                      final navigationController =
-                          await widget._controller.future;
-                      streamSubscription = Geolocator.getPositionStream(
-                        locationSettings: AndroidSettings(
-                          accuracy: LocationAccuracy.bestForNavigation,
-                          intervalDuration: Duration.zero,
-                        ),
-                      ).listen((event) async {
-                        await navigationController.moveCamera(
-                          animation: const MapAnimation(duration: 2),
-                          CameraUpdate.newCameraPosition(
-                            CameraPosition(
-                              target: event.toPoint(),
-                              zoom: 18,
-                              azimuth: event.heading,
-                              tilt: 90,
-                            ),
-                          ),
-                        );
-                      });
-                      widget.locationState.value = LocationState.tracked;
-                    } else if (streamSubscription!.isPaused) {
-                      streamSubscription!.resume();
-                      widget.locationState.value = LocationState.tracked;
-                    } else {
-                      streamSubscription!.pause();
-                      widget.locationState.value = LocationState.notFixed;
-                    }
-                  },
+                  onFixed: () async {},
                   onNotFixed: () async {
                     final position = await Geolocator.getLastKnownPosition() ??
                         await Geolocator.getCurrentPosition();
@@ -412,13 +387,9 @@ class _HomeFABWidgetsState extends State<HomeFABWidgets> {
                       ),
                       animation: const MapAnimation(),
                     );
-                    widget.isUserDetected.value = true;
                     widget.locationState.value = LocationState.fixed;
                   },
-                  onTracked: () {
-                    streamSubscription!.pause();
-                    widget.locationState.value = LocationState.notFixed;
-                  },
+                  onTracked: () {},
                 );
               },
             ),

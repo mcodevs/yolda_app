@@ -28,7 +28,6 @@ class UserHomeBloc extends Bloc<UserHomeEvent, UserHomeState> {
   ) async {
     try {
       await FirebaseService.radarPath.doc(value.radar.id).set(value.radar);
-      Geofencing.addRadar(value.radar);
       emit(const UserHomeState.success());
     } on Exception catch (e) {
       emit(UserHomeState.error(e.toString()));
@@ -40,7 +39,7 @@ class UserHomeBloc extends Bloc<UserHomeEvent, UserHomeState> {
     Emitter<UserHomeState> emit,
   ) async {
     try {
-      Geofencing.start(value.radars);
+      await Geofencing.start(value.radars);
     } catch (e) {
       emit(UserHomeState.error(e.toString()));
     }

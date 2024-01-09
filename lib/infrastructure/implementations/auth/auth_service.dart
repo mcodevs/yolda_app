@@ -38,6 +38,13 @@ class AuthServiceImpl extends AuthServiceRepository {
       if (currentUser!.isActive || currentUser!.password != password) {
         throw WrongPasswordOrActive("Password Xato");
       }
+
+      await DBService.saveLogged(
+        LocalUserModel(
+          role: currentUser!.role,
+          phoneNumber: currentUser!.phoneNumber,
+        ),
+      );
     }
   }
 

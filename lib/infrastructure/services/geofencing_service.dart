@@ -60,6 +60,7 @@ class Geofencing {
           isInside &&
           ((_currentRadar == null) || (_currentRadar == geofence.id))) {
         await TTSService.speakMeter(geofenceRadius.length.toInt());
+        LogService.e("$_currentRadar");
         if (geofenceRadius.length == 150) {
           TTSService.beepSound();
         }
@@ -108,8 +109,9 @@ class Geofencing {
     return (bearing - userLocation.heading).abs() <= 30;
   }
 
-  static void start(List<BaseModel> radars) {
+  static Future<void> start(List<BaseModel> radars) async {
     _service.clearGeofenceList();
+    await Future.delayed(const Duration(seconds: 3));
     _service.addGeofenceList(radars.map((e) => e.toGeofence()).toList());
   }
 }
