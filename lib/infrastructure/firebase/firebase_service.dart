@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
 import 'package:yolda_app/infrastructure/models/home/core/base/base_model.dart';
 
@@ -18,8 +17,14 @@ class FirebaseService {
         .set(userModel.toJson());
   }
 
-  static Future<bool> isUser(String phoneNumber) async {
+  static Future<UserModel?> getOrChek(String phoneNumber) async {
     final data = await _firebase.collection('users').doc(phoneNumber).get();
-    return data.exists;
+    return data.data() == null ? null : UserModel.fromJson(data.data()!);
+  }
+
+  static Future<void> logOut(String phoneNumber) async {
+    await _firebase.collection('users').doc(phoneNumber).update({
+      "is-active": false,
+    });
   }
 }

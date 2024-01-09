@@ -16,6 +16,8 @@ abstract class AuthServiceRepository {
   /// Handle log out
   Future<void> logOut();
 
+  UserModel? get currentUser;
+
   /// Check is logged
   Role? checkLogged();
 }

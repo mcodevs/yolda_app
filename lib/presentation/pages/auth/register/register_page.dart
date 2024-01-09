@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
-import 'package:yolda_app/domain/repositories/auth_service_repo.dart';
-import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
+import 'package:yolda_app/infrastructure/firebase/firebase_service.dart';
 import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 import 'package:yolda_app/presentation/widgets/header.dart';
@@ -110,15 +109,18 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       const Spacer(),
                       MainButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            Routes.getConfirmPage(
-                              name: _nameController.text,
-                              phoneNumber: _phoneController.text,
-                              carNumber: _carNumberController.text,
-                            ),
-                          );
+                        onPressed: () async {
+                          if(await FirebaseService.getOrChek(_phoneController.text) != null){
+                          }else if(mounted){
+                            Navigator.push(
+                              context,
+                              Routes.getConfirmPage(
+                                name: _nameController.text,
+                                phoneNumber: _phoneController.text,
+                                carNumber: _carNumberController.text,
+                              ),
+                            );
+                          }
                         },
                         backgroundColor: colors.onPrimary,
                         text: "Keyingi",

@@ -9,6 +9,7 @@ import 'package:yolda_app/application/home/user_home/bloc/user_home_bloc.dart';
 import 'package:yolda_app/domain/common/extensions/point_extension.dart';
 import 'package:yolda_app/domain/common/extensions/position_extension.dart';
 import 'package:yolda_app/infrastructure/firebase/home_firebase_widget.dart';
+import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/infrastructure/models/home/radars/speed_radar.dart';
 import 'package:yolda_app/infrastructure/services/log_service.dart';
 import 'package:yolda_app/presentation/pages/user_home/widgets/compass_home_widget.dart';
@@ -18,6 +19,7 @@ import 'package:yolda_app/presentation/widgets/custom_fab.dart';
 import 'package:yolda_app/presentation/widgets/custom_fab_location.dart';
 
 import '../../../domain/common/enums/location_state.dart';
+import '../../routes/routes.dart';
 
 class UserHomePage extends StatefulWidget {
   const UserHomePage({super.key});
@@ -323,7 +325,16 @@ class _HomeFABWidgetsState extends State<HomeFABWidgets> {
           children: [
             CustomFAB(
               radius: 15,
-              onPressed: () {},
+              onPressed: () async {
+                await context.read<AuthServiceImpl>().logOut();
+                if(mounted){
+                  Navigator.pushAndRemoveUntil(
+                    context,
+                    Routes.getIntroPage(),
+                    (route) => false,
+                  );
+                }
+              },
               child: Icon(
                 Icons.settings,
                 color: colors.white,

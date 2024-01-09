@@ -34,4 +34,8 @@ class DBService {
   static Future<void> saveLogged(LocalUserModel localUserModel)async {
     await storage.setString(_isUserLogged, jsonEncode(localUserModel.toJson()));
   }
+
+  static Future<void> removeUser() async {
+    await storage.remove(_isUserLogged);
+  }
 }
