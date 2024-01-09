@@ -11,21 +11,14 @@ part 'user_home_bloc.freezed.dart';
 class UserHomeBloc extends Bloc<UserHomeEvent, UserHomeState> {
   UserHomeBloc() : super(const UserHomeState.loading()) {
     on<UserHomeEvent>(
-      (event, emit) {
-        Geofencing.getRadars();
-        Geofencing.listenRadar(
-          onInside: (radar, distance) {},
-          onOutside: () {},
-          onOtherRadarDetected: (radar, distance) {},
-        );
-        event.map(
-          getAllMarkers: (value) => _getAllMarkers(value, emit),
-          readMarker: (value) {},
-          createMarker: (value) => _createMarker(value, emit),
-          updateMarker: (value) {},
-          deleteMarker: (value) {},
-        );
-      },
+      (event, emit) => event.map(
+        initial: (value) => _onInitial(value, emit),
+        getAllMarkers: (value) => _getAllMarkers(value, emit),
+        readMarker: (value) {},
+        createMarker: (value) => _createMarker(value, emit),
+        updateMarker: (value) {},
+        deleteMarker: (value) {},
+      ),
     );
   }
 
@@ -51,5 +44,13 @@ class UserHomeBloc extends Bloc<UserHomeEvent, UserHomeState> {
     } catch (e) {
       emit(UserHomeState.error(e.toString()));
     }
+  }
+
+  Future<void> _onInitial(_Initial value, Emitter<UserHomeState> emit) async {
+    Geofencing.listenRadar(
+      onInside: (radar, distance) {},
+      onOutside: () {},
+      onOtherRadarDetected: (radar, distance) {},
+    );
   }
 }

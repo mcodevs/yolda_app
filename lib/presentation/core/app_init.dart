@@ -21,6 +21,7 @@ class AppInit {
       TTSService.initialize(),
     ]);
     Geofencing.initialize();
+    await Geofencing.getRadars();
 
     // DBService.storage.clear(); //  Uncomment this line for clear local storage
     LogService.create;

@@ -2,10 +2,12 @@ part of 'user_home_bloc.dart';
 
 @freezed
 class UserHomeEvent with _$UserHomeEvent {
-   const factory UserHomeEvent.getAllMarkers({
-    required List<BaseModel> radars,
-   }) = _GetAllMarkers;
+  const factory UserHomeEvent.initial() = _Initial;
   
+  const factory UserHomeEvent.getAllMarkers({
+    required List<BaseModel> radars,
+  }) = _GetAllMarkers;
+
   const factory UserHomeEvent.readMarker({
     required BaseModel radar,
   }) = _AddMarker;

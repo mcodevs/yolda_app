@@ -1,6 +1,7 @@
 import 'package:geofence_service/geofence_service.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:yolda_app/infrastructure/models/home/core/base/base_model.dart';
+import 'package:yolda_app/infrastructure/services/log_service.dart';
 import 'package:yolda_app/infrastructure/services/tts_service.dart';
 // import 'package:geolocator/geolocator.dart';
 
@@ -21,7 +22,8 @@ class Geofencing {
       );
 
   static Future<void> getRadars() async {
-    await _service.start([]);
+    await _service.start();
+    LogService.e("${_service.isRunningService}");
   }
 
   // static updateRadars(List<BaseModel> radars) {
@@ -108,6 +110,6 @@ class Geofencing {
 
   static void start(List<BaseModel> radars) {
     _service.clearGeofenceList();
-    _service.start(radars.map((e) => e.toGeofence()).toList());
+    _service.addGeofenceList(radars.map((e) => e.toGeofence()).toList());
   }
 }
