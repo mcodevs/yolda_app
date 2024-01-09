@@ -24,6 +24,8 @@ dependencies:
   firebase_analytics: ^10.7.4
   cloud_firestore: ^4.13.6
 
+  json_serializable: ^6.7.1
+
   # Local storage
   shared_preferences: ^2.2.2
 

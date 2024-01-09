@@ -12,9 +12,10 @@ import 'package:yolda_app/presentation/pages/intro/intro_page.dart';
 
 abstract final class Routes {
   const Routes._();
+
   static PageRoute getInitialRoute(Role? role) {
     return switch (role) {
-      Role.admin => getAdminHomePage(),
+      // Role.admin => getAdminHomePage(),
       Role.radarAdmin => getRadarAdminPage(),
       Role.user => getHomePage(),
       _ => getIntroPage(),
@@ -59,8 +60,17 @@ abstract final class Routes {
         builder: (context) => const RegisterPage(),
       );
 
-  static PageRoute getConfirmPage() => MaterialPageRoute(
-        builder: (context) => const ConfirmPage(),
+  static PageRoute getConfirmPage({
+    required String name,
+    required String phoneNumber,
+    required String carNumber,
+  }) =>
+      MaterialPageRoute(
+        builder: (context) => ConfirmPage(
+          name: name,
+          phoneNumber: phoneNumber,
+          carNumber: carNumber,
+        ),
       );
 
   static PageRoute getAdminHomePage() {

@@ -1,4 +1,5 @@
 import 'package:yolda_app/domain/common/enums/role.dart';
+import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
 
 abstract class AuthServiceRepository {
   Role? get role;
@@ -10,12 +11,7 @@ abstract class AuthServiceRepository {
   });
 
   /// Handle register
-  Future<void> register({
-    required String name,
-    required String carNumber,
-    required String phoneNumber,
-    required String password,
-  });
+  Future<void> register({required UserModel userModel});
 
   /// Handle log out
   Future<void> logOut();

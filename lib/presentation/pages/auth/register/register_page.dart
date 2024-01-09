@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:yolda_app/domain/repositories/auth_service_repo.dart';
+import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 import 'package:yolda_app/presentation/widgets/header.dart';
@@ -65,20 +67,22 @@ class _RegisterPageState extends State<RegisterPage> {
                         fit: BoxFit.cover,
                       ),
                       55.verticalSpace,
-                      const SizedBox(
+                      SizedBox(
                         height: 50,
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: _nameController,
+                          decoration: const InputDecoration(
                             hintText: "Ismingiz va familiyangizni kiriting",
                             border: OutlineInputBorder(),
                           ),
                         ),
                       ),
                       15.verticalSpace,
-                      const SizedBox(
+                      SizedBox(
                         height: 50,
                         child: TextField(
-                          decoration: InputDecoration(
+                          controller: _carNumberController,
+                          decoration: const InputDecoration(
                             hintText: "Avtomashina raqamini kiriting",
                             border: OutlineInputBorder(),
                           ),
@@ -88,6 +92,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       SizedBox(
                         height: 50,
                         child: TextField(
+                          controller: _phoneController,
                           keyboardType: TextInputType.phone,
                           inputFormatters: [
                             MaskTextInputFormatter(
@@ -106,7 +111,14 @@ class _RegisterPageState extends State<RegisterPage> {
                       const Spacer(),
                       MainButton(
                         onPressed: () {
-                          Navigator.push(context, Routes.getConfirmPage());
+                          Navigator.push(
+                            context,
+                            Routes.getConfirmPage(
+                              name: _nameController.text,
+                              phoneNumber: _phoneController.text,
+                              carNumber: _carNumberController.text,
+                            ),
+                          );
                         },
                         backgroundColor: colors.onPrimary,
                         text: "Keyingi",

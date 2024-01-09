@@ -1,13 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
 import 'package:yolda_app/presentation/pages/auth/widgets/custom_pinput.dart';
 import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 import 'package:yolda_app/presentation/widgets/header.dart';
 import 'package:yolda_app/presentation/widgets/main_button.dart';
 
+import '../../../../domain/repositories/auth_service_repo.dart';
+import '../../../../infrastructure/implementations/auth/auth_service.dart';
+
 class ConfirmPage extends StatefulWidget {
-  const ConfirmPage({Key? key}) : super(key: key);
+  const ConfirmPage({
+    Key? key,
+    required this.name,
+    required this.phoneNumber,
+    required this.carNumber,
+  }) : super(key: key);
+
+  final String name;
+  final String phoneNumber;
+  final String carNumber;
 
   @override
   State<ConfirmPage> createState() => _ConfirmPageState();
@@ -15,9 +28,11 @@ class ConfirmPage extends StatefulWidget {
 
 class _ConfirmPageState extends State<ConfirmPage> {
   late final TextEditingController pinController;
+  late final AuthServiceRepository authServiceImpl;
 
   @override
   void initState() {
+    authServiceImpl = AuthServiceImpl();
     pinController = TextEditingController();
     super.initState();
   }
@@ -61,7 +76,20 @@ class _ConfirmPageState extends State<ConfirmPage> {
                   ),
                   const Spacer(),
                   MainButton(
-                    onPressed: () => Routes.checkAndPushHome(context),
+                    onPressed: () async {
+                      UserModel userModel = UserModel(
+                        isActive: true,
+                        name: widget.name,
+                        phoneNumber: widget.phoneNumber,
+                        password: pinController.text,
+                        carNumber: widget.carNumber,
+                      );
+                      await authServiceImpl
+                          .register(userModel: userModel)
+                          .then((value) {
+                        Routes.checkAndPushHome(context);
+                      });
+                    },
                     backgroundColor: colors.onPrimary,
                     text: "Tasdiqlash",
                   ),
