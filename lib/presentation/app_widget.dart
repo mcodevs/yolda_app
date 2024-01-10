@@ -22,14 +22,6 @@ class _AppWidgetState extends State<AppWidget> {
         localizationsDelegates: context.localizationDelegates,
         supportedLocales: context.supportedLocales,
 
-        /// Builder
-        // builder: (context, child) {
-        //   return BlocProvider(
-        //     create: (context) => AuthBloc(),
-        //     child: child,
-        //   );
-        // },
-
         /// Routes
         onGenerateRoute: (settings) {
           return Routes.getInitialRoute(

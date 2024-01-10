@@ -5,6 +5,4 @@ enum Role {
   radarAdmin,
   @JsonValue("user")
   user;
-
-
 }

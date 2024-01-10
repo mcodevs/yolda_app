@@ -15,7 +15,6 @@ abstract final class Routes {
 
   static PageRoute getInitialRoute(Role? role) {
     return switch (role) {
-      // Role.admin => getAdminHomePage(),
       Role.radarAdmin => getRadarAdminPage(),
       Role.user => getHomePage(),
       _ => getIntroPage(),
