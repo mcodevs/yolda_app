@@ -12,8 +12,8 @@ class Locator {
     required this.longitude,
   });
 
+  Map<String, dynamic> toJson() => _$LocatorToJson(this);
+
   factory Locator.fromJson(Map<String, dynamic> json) =>
       _$LocatorFromJson(json);
-
-  Map<String, dynamic> toJson() => _$LocatorToJson(this);
 }

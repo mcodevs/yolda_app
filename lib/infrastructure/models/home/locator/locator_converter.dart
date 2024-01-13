@@ -1,10 +1,8 @@
 import 'package:json_annotation/json_annotation.dart';
-import 'package:yolda_app/infrastructure/models/home/core/locator/locator.dart';
+import 'package:yolda_app/infrastructure/models/home/locator/locator.dart';
 
 class LocatorConverter extends JsonConverter<Locator, Map<String, dynamic>> {
-  
   const LocatorConverter();
-
   @override
   Locator fromJson(Map<String, dynamic> json) => Locator.fromJson(json);
 

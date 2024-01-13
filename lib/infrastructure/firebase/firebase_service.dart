@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
-import 'package:yolda_app/infrastructure/models/home/core/base/base_model.dart';
+import 'package:yolda_app/infrastructure/models/home/base/base_model.dart';
 
 class FirebaseService {
   static final _firebase = FirebaseFirestore.instance;

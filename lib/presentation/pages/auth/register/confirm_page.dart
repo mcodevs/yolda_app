@@ -7,17 +7,15 @@ import 'package:yolda_app/presentation/routes/routes.dart';
 import 'package:yolda_app/presentation/styles/theme_wrapper.dart';
 import 'package:yolda_app/presentation/widgets/header.dart';
 import 'package:yolda_app/presentation/widgets/main_button.dart';
-
-import '../../../../domain/repositories/auth_service_repo.dart';
 import '../../../../infrastructure/implementations/auth/auth_service.dart';
 
 class ConfirmPage extends StatefulWidget {
   const ConfirmPage({
-    Key? key,
+    super.key,
     required this.name,
     required this.phoneNumber,
     required this.carNumber,
-  }) : super(key: key);
+  });
 
   final String name;
   final String phoneNumber;

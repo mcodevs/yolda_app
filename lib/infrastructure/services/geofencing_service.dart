@@ -1,6 +1,6 @@
 import 'package:geofence_service/geofence_service.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:yolda_app/infrastructure/models/home/core/base/base_model.dart';
+import 'package:yolda_app/infrastructure/models/home/base/base_model.dart';
 import 'package:yolda_app/infrastructure/services/log_service.dart';
 import 'package:yolda_app/infrastructure/services/tts_service.dart';
 // import 'package:geolocator/geolocator.dart';
@@ -81,7 +81,7 @@ class Geofencing {
   }
 
   static void addRadar(BaseModel radar) {
-    _service.addGeofence(radar.toGeofence());
+    // _service.addGeofence(radar.toGeofence());
   }
 
   static void removeRadar(String id) {
@@ -89,8 +89,8 @@ class Geofencing {
   }
 
   static void updateRadar(BaseModel radar) {
-    removeRadar(radar.id);
-    addRadar(radar);
+    // removeRadar(radar.id);
+    // addRadar(radar);
   }
 
   static bool _isInside({
@@ -112,6 +112,6 @@ class Geofencing {
   static Future<void> start(List<BaseModel> radars) async {
     _service.clearGeofenceList();
     await Future.delayed(const Duration(seconds: 3));
-    _service.addGeofenceList(radars.map((e) => e.toGeofence()).toList());
+    // _service.addGeofenceList(radars.map((e) => e.toGeofence()).toList());
   }
 }
