@@ -6,11 +6,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
 import 'package:yolda_app/application/home/user_home/bloc/user_home_bloc.dart';
-import 'package:yolda_app/domain/common/extensions/point_extension.dart';
 import 'package:yolda_app/domain/common/extensions/position_extension.dart';
 import 'package:yolda_app/infrastructure/firebase/home_firebase_widget.dart';
 import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
-import 'package:yolda_app/infrastructure/models/home/radars/speed_radar.dart';
 import 'package:yolda_app/infrastructure/services/log_service.dart';
 import 'package:yolda_app/presentation/pages/user_home/widgets/compass_home_widget.dart';
 import 'package:yolda_app/presentation/pages/user_home/widgets/position_home_widget.dart';
@@ -144,16 +142,7 @@ class _UserHomePageState extends State<UserHomePage> {
                                     )
                                   ]
                                 ],
-                                onMapTap: (argument) {
-                                  final radar = SpeedRadar(
-                                    name: "test",
-                                    location: argument.toLocation(),
-                                    speedLimit: 70,
-                                  );
-                                  _bloc.add(
-                                    UserHomeEvent.createMarker(radar: radar),
-                                  );
-                                },
+                                onMapTap: (argument) {},
                               );
                             },
                             onAccuracyLow: () {
