@@ -13,4 +13,17 @@ enum RadarType {
     RadarType.back: 'back',
     RadarType.twoSide: 'two-side',
   };
+
+  T map<T>({
+    required T Function() onFront,
+    required T Function() onBack,
+    required T Function() onTwoSide,
+  }) {
+    return switch (name) {
+      "front" => onFront(),
+      "back" => onBack(),
+      "twoSide" => onTwoSide(),
+      _ => onFront(),
+    };
+  }
 }

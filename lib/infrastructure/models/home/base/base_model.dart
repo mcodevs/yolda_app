@@ -5,6 +5,8 @@ import 'package:yolda_app/infrastructure/models/home/locator/locator_converter.d
 import 'package:yolda_app/infrastructure/models/home/radars/back/back_radar.dart';
 import 'package:yolda_app/infrastructure/models/home/radars/front/front_radar.dart';
 
+import '../radars/two_side/two_side_radar.dart';
+
 abstract class BaseModel {
   final String name;
   @LocatorConverter()
@@ -28,7 +30,7 @@ abstract class BaseModel {
     return switch (type) {
       RadarType.front => FrontRadar.fromJson(json),
       RadarType.back => BackRadar.fromJson(json),
-      RadarType.twoSide => TwoSide.fromJson(json),
+      RadarType.twoSide => TwoSideRadar.fromJson(json),
     };
   }
 
