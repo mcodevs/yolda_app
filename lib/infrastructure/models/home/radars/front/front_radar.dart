@@ -15,11 +15,14 @@ class FrontRadar extends BaseModel {
     required super.location,
     required super.degree,
     required this.speedLimit,
+    String? icon,
+    String? name,
+    RadarType? type,
     List<int>? radius,
   }) : super(
-          icon: AppIcons.frontRadar,
-          name: "Old tomon radari",
-          type: RadarType.front,
+          icon: icon ?? AppIcons.frontRadar,
+          name: name ?? "Old tomon radari",
+          type: type ?? RadarType.front,
           radius: radius ?? const [600, 300, 150, 50],
         );
 

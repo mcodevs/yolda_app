@@ -6,5 +6,11 @@ enum RadarType {
   @JsonValue('back')
   back,
   @JsonValue("two-side")
-  twoSide,
+  twoSide;
+
+  static Map<RadarType, String> radarTypes = {
+    RadarType.front: 'front',
+    RadarType.back: 'back',
+    RadarType.twoSide: 'two-side',
+  };
 }

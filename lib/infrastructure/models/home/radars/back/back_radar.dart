@@ -9,7 +9,6 @@ part 'back_radar.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.kebab) // PaskalCase
 class BackRadar extends BaseModel {
-
   final int speedLimit;
 
   BackRadar({
@@ -18,11 +17,12 @@ class BackRadar extends BaseModel {
     required this.speedLimit,
     String? icon,
     String? name,
+    RadarType? type,
     List<int>? radius,
   }) : super(
-          icon: AppIcons.backRadar,
-          name: "Orqa tomon radari",
-          type: RadarType.back,
+          icon: icon ?? AppIcons.backRadar,
+          name: name ?? "Orqa tomon radari",
+          type: type ?? RadarType.back,
           radius: radius ?? [600, 300, 150, 50],
         );
 
@@ -42,8 +42,8 @@ class BackRadar extends BaseModel {
   }
 
   @override
-  Map<String, dynamic> toJson() {
-    // TODO: implement toJson
-    throw UnimplementedError();
-  }
+  Map<String, dynamic> toJson() => _$BackRadarToJson(this);
+
+  factory BackRadar.fromJson(Map<String, dynamic> json) =>
+      _$BackRadarFromJson(json);
 }
