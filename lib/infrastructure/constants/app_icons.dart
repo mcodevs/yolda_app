@@ -1,6 +1,6 @@
 abstract final class AppIcons {
   static const _path = "assets/icons";
-  static const frontRadar = "$_path/front.png";
-  static const backRadar = "$_path/back.png";
-  static const twoSideRadar = "$_path/two_side.png";
+  static const camera1 = "$_path/camera.png";
+  static const camera2 = "$_path/camera2.png";
+  static const camera3 = "$_path/camera3.png";
 }

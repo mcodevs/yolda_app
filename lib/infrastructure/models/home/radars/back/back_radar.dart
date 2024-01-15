@@ -20,7 +20,7 @@ class BackRadar extends BaseModel {
     RadarType? type,
     List<int>? radius,
   }) : super(
-          icon: icon ?? AppIcons.backRadar,
+          icon: icon ?? AppIcons.camera2,
           name: name ?? "Orqa tomon radari",
           type: type ?? RadarType.back,
           radius: radius ?? [600, 300, 150, 50],

@@ -20,7 +20,7 @@ class FrontRadar extends BaseModel {
     RadarType? type,
     List<int>? radius,
   }) : super(
-          icon: icon ?? AppIcons.frontRadar,
+          icon: icon ?? AppIcons.camera1,
           name: name ?? "Old tomon radari",
           type: type ?? RadarType.front,
           radius: radius ?? const [600, 300, 150, 50],

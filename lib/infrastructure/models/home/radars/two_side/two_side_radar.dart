@@ -1,5 +1,3 @@
-
-  import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:yolda_app/infrastructure/constants/app_icons.dart';
 import 'package:yolda_app/infrastructure/models/home/base/base_model.dart';
@@ -11,7 +9,7 @@ import '../../locator/locator_converter.dart';
 part 'two_side_radar.g.dart';
 
 @JsonSerializable(fieldRename: FieldRename.kebab)
-class TwoSideRadar extends BaseModel{
+class TwoSideRadar extends BaseModel {
   final int speedLimit;
 
   TwoSideRadar({
@@ -22,12 +20,12 @@ class TwoSideRadar extends BaseModel{
     String? name,
     RadarType? type,
     List<int>? radius,
-}) :super(
-    icon: icon ?? AppIcons.twoSideRadar,
-    name: name ?? "Ikki tomonlama radar",
-    type: type ?? RadarType.twoSide,
-    radius: radius ?? [600 ,300 ,150 ,50],
-  );
+  }) : super(
+          icon: icon ?? AppIcons.camera3,
+          name: name ?? "Ikki tomonlama radar",
+          type: type ?? RadarType.twoSide,
+          radius: radius ?? [600, 300, 150, 50],
+        );
 
   @override
   BaseModel copyWith({
@@ -43,11 +41,10 @@ class TwoSideRadar extends BaseModel{
       radius: radius ?? this.radius,
     );
   }
+
   @override
   Map<String, dynamic> toJson() => _$TwoSideRadarToJson(this);
 
   factory TwoSideRadar.fromJson(Map<String, dynamic> json) =>
       _$TwoSideRadarFromJson(json);
-
 }
-
