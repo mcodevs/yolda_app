@@ -1,29 +1,34 @@
 import 'package:json_annotation/json_annotation.dart';
 
 enum RadarType {
-  @JsonValue('front')
-  front,
-  @JsonValue('back')
-  back,
-  @JsonValue("two-side")
-  twoSide;
+  @JsonValue('pillar')
+  pillar,
+  @JsonValue('three-legged')
+  threeLegged,
+  @JsonValue('post')
+  post,
+  @JsonValue("multi-radar")
+  multiRadar;
 
-  static Map<RadarType, String> radarTypes = {
-    RadarType.front: 'front',
-    RadarType.back: 'back',
-    RadarType.twoSide: 'two-side',
+  static const types = {
+    RadarType.pillar: 'pillar',
+    RadarType.threeLegged: 'three-legged',
+    RadarType.post: 'post',
+    RadarType.multiRadar: 'multi-radar',
   };
 
   T map<T>({
-    required T Function() onFront,
-    required T Function() onBack,
-    required T Function() onTwoSide,
+    required T Function() onPillar,
+    required T Function() onThreeLegged,
+    required T Function() onPost,
+    required T Function() onMultiRadar,
   }) {
     return switch (name) {
-      "front" => onFront(),
-      "back" => onBack(),
-      "twoSide" => onTwoSide(),
-      _ => onFront(),
+      "pillar" => onPillar(),
+      "threeLegged" => onThreeLegged(),
+      "post" => onPost(),
+      "multiRadar" => onMultiRadar(),
+      _ => onPillar(),
     };
   }
 }

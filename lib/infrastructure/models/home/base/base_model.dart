@@ -2,12 +2,12 @@ import 'package:json_annotation/json_annotation.dart';
 import 'package:yolda_app/infrastructure/models/home/enums/radar_type.dart';
 import 'package:yolda_app/infrastructure/models/home/locator/locator.dart';
 import 'package:yolda_app/infrastructure/models/home/locator/locator_converter.dart';
-import 'package:yolda_app/infrastructure/models/home/radars/back/back_radar.dart';
-import 'package:yolda_app/infrastructure/models/home/radars/front/front_radar.dart';
+import 'package:yolda_app/infrastructure/models/home/radars/multiradar/multiradar.dart';
+import 'package:yolda_app/infrastructure/models/home/radars/pillar/pillar.dart';
+import 'package:yolda_app/infrastructure/models/home/radars/post/post.dart';
+import 'package:yolda_app/infrastructure/models/home/radars/three_legged/three_legged.dart';
 
-import '../radars/two_side/two_side_radar.dart';
-
-abstract class BaseModel {
+abstract class BaseModel with _BaseModelPatternMatcher{
   final String name;
   @LocatorConverter()
   final Locator location;
@@ -26,11 +26,12 @@ abstract class BaseModel {
   });
 
   factory BaseModel.fromJson(Map<String, dynamic> json) {
-    final type = $enumDecode(RadarType.radarTypes, json['type']);
+    final type = $enumDecode(RadarType.types, json['type']);
     return switch (type) {
-      RadarType.front => FrontRadar.fromJson(json),
-      RadarType.back => BackRadar.fromJson(json),
-      RadarType.twoSide => TwoSideRadar.fromJson(json),
+      RadarType.multiRadar => MultiRadar.fromJson(json),
+      RadarType.pillar => Pillar.fromJson(json),
+      RadarType.threeLegged => ThreeLegged.fromJson(json),
+      RadarType.post => Post.fromJson(json),
     };
   }
 
@@ -40,5 +41,14 @@ abstract class BaseModel {
     Locator? location,
     double? degree,
     List<int>? radius,
+  });
+}
+
+mixin _BaseModelPatternMatcher {
+  T map<T>({
+    required T Function(MultiRadar value) onMultiRadar,
+    required T Function(Pillar value) onPillar,
+    required T Function(Post value) onPost,
+    required T Function(ThreeLegged value) onThreeLegged,
   });
 }

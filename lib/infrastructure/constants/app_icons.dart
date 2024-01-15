@@ -3,4 +3,5 @@ abstract final class AppIcons {
   static const camera1 = "$_path/camera.png";
   static const camera2 = "$_path/camera2.png";
   static const camera3 = "$_path/camera3.png";
+  static const camera4 = "$_path/camera4.png";
 }
