@@ -2,13 +2,17 @@ import 'package:json_annotation/json_annotation.dart';
 
 enum RadarType {
   @JsonValue('pillar')
-  pillar,
+  pillar("Ustunga o'rnatilgan radar"),
   @JsonValue('three-legged')
-  threeLegged,
+  threeLegged("Uch oyoqli radar"),
   @JsonValue('post')
-  post,
+  post("Post"),
   @JsonValue("multi-radar")
-  multiRadar;
+  multiRadar("Multiradar");
+
+  final String radarName;
+
+  const RadarType(this.radarName);
 
   static const types = {
     RadarType.pillar: 'pillar',

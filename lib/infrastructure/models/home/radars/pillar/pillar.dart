@@ -16,15 +16,16 @@ class Pillar extends BaseModel {
   Pillar({
     required super.location,
     required super.degree,
-    required super.type,
     required this.speedLimit,
     List<int>? radius,
     String? name,
     String? icon,
+    RadarType? type,
   }) : super(
           name: name ?? "Pillar radar",
           radius: radius ?? const [600, 150],
           icon: icon ?? AppIcons.camera2,
+          type: type ?? RadarType.pillar,
         );
 
   @override

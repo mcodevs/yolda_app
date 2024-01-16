@@ -16,15 +16,16 @@ class MultiRadar extends BaseModel {
   const MultiRadar({
     required super.location,
     required super.degree,
-    required super.type,
     required this.speedLimit,
     List<int>? radius,
     String? name,
     String? icon,
+    RadarType? type,
   }) : super(
           name: name ?? "MultiRadar",
           radius: radius ?? const [600, 300, 150, 50],
           icon: icon ?? AppIcons.camera1,
+          type: type ?? RadarType.multiRadar,
         );
 
   @override

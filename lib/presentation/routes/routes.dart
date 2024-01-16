@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:provider/provider.dart';
 import 'package:yolda_app/domain/common/enums/role.dart';
-import 'package:yolda_app/domain/repositories/auth_service_repo.dart';
 import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/presentation/pages/admin_home.dart/admin_home_page.dart';
 import 'package:yolda_app/presentation/pages/auth/login/login_page.dart';

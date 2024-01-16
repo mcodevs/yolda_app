@@ -15,14 +15,15 @@ class Post extends BaseModel {
   Post({
     required super.location,
     required super.degree,
-    required super.type,
     List<int>? radius,
     String? name,
     String? icon,
+    RadarType? type,
   }) : super(
           name: name ?? "Post",
           icon: icon ?? AppIcons.camera4,
           radius: radius ?? const [1000, 500, 200],
+          type: type ?? RadarType.post,
         );
 
   @override

@@ -16,15 +16,16 @@ class ThreeLegged extends BaseModel {
   ThreeLegged({
     required super.location,
     required super.degree,
-    required super.type,
     required this.speedLimit,
     List<int>? radius,
     String? name,
     String? icon,
+    RadarType? type,
   }) : super(
           name: name ?? "Uch oyoqli radar",
           radius: radius ?? const [600, 400, 200, 100],
           icon: icon ?? AppIcons.camera3,
+          type: type ?? RadarType.threeLegged,
         );
 
   @override
