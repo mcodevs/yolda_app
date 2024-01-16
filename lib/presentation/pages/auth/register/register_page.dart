@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:yolda_app/infrastructure/firebase/firebase_service.dart';
@@ -96,9 +97,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           inputFormatters: [
                             MaskTextInputFormatter(
                               mask: '+998 (##) ###-##-##',
-                              filter: {
-                                "#": RegExp(r'[0-9]'),
-                              },
+                              type: MaskAutoCompletionType.eager,
                             ),
                           ],
                           decoration: const InputDecoration(
@@ -110,8 +109,15 @@ class _RegisterPageState extends State<RegisterPage> {
                       const Spacer(),
                       MainButton(
                         onPressed: () async {
-                          if(await FirebaseService.getOrChek(_phoneController.text) != null){
-                          }else if(mounted){
+                          EasyLoading.show();
+                          await Future.delayed(const Duration(seconds: 2));
+                          if (await FirebaseService.getOrChek(
+                                  _phoneController.text) !=
+                              null) {
+                            EasyLoading.showInfo(
+                              "Siz ro'yhatdan o'tgansiz!",
+                            );
+                          } else if (mounted) {
                             Navigator.push(
                               context,
                               Routes.getConfirmPage(
@@ -120,6 +126,7 @@ class _RegisterPageState extends State<RegisterPage> {
                                 carNumber: _carNumberController.text,
                               ),
                             );
+                            EasyLoading.dismiss();
                           }
                         },
                         backgroundColor: colors.onPrimary,

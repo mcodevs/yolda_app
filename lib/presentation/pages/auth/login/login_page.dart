@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
+import 'package:yolda_app/infrastructure/core/exceptions.dart';
 import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/presentation/pages/auth/widgets/custom_pinput.dart';
 import 'package:yolda_app/presentation/routes/routes.dart';
@@ -64,9 +66,7 @@ class _LoginPageState extends State<LoginPage> {
                         inputFormatters: [
                           MaskTextInputFormatter(
                             mask: '+998 (##) ###-##-##',
-                            filter: {
-                              "#": RegExp(r'[0-9]'),
-                            },
+                            type: MaskAutoCompletionType.eager,
                           ),
                         ],
                         controller: phoneController,
@@ -110,18 +110,29 @@ class _LoginPageState extends State<LoginPage> {
                   const Spacer(),
                   MainButton(
                     onPressed: () async {
-                      try{
+                      try {
                         await context
                             .read<AuthServiceImpl>()
                             .login(
                               phoneNumber: phoneController.text,
                               password: pinController.text,
                             )
-                            .then((value) {
-                          Routes.checkAndPushHome(context);
-                        });
-                      }catch(e,s){
-                        print("$e --------- $s");
+                            .then(
+                          (value) {
+                            Routes.checkAndPushHome(context);
+                          },
+                        );
+                      } on WrongPasswordOrActive catch (_) {
+                        EasyLoading.showInfo(
+                          "Kod xato yoki hisobdan foydalanilmoqda\n"
+                          "Qo'llab quvvatlash markaziga murojaat qiling!",
+                          duration: const Duration(seconds: 3),
+                        );
+                      } on UserNotFount catch (_) {
+                        EasyLoading.showInfo(
+                          "Ushbu raqamdagi foydalanuvchi tizimda mavjud emas",
+                          duration: const Duration(seconds: 3),
+                        );
                       }
                     },
                     text: "Keyingi",

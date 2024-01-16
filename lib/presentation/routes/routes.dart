@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:provider/provider.dart';
 import 'package:yolda_app/domain/common/enums/role.dart';
+import 'package:yolda_app/domain/repositories/auth_service_repo.dart';
+import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/presentation/pages/admin_home.dart/admin_home_page.dart';
 import 'package:yolda_app/presentation/pages/auth/login/login_page.dart';
 import 'package:yolda_app/presentation/pages/auth/register/confirm_page.dart';
 import 'package:yolda_app/presentation/pages/auth/register/register_page.dart';
-import 'package:yolda_app/presentation/pages/radar_admin_home/radar_admin_home_page.dart';
 import 'package:yolda_app/presentation/pages/user_home/user_home_page.dart';
 import 'package:yolda_app/presentation/pages/intro/intro_page.dart';
 
@@ -15,7 +17,7 @@ abstract final class Routes {
 
   static PageRoute getInitialRoute(Role? role) {
     return switch (role) {
-      Role.radarAdmin => getRadarAdminPage(),
+      Role.radarAdmin => getAdminHomePage(),
       Role.user => getHomePage(),
       _ => getIntroPage(),
     };
@@ -26,16 +28,20 @@ abstract final class Routes {
       Permission.location,
       Permission.activityRecognition,
     ].request();
-    if (permissions.values
-        .every((element) => element == PermissionStatus.granted)) {
-      await Geolocator.getCurrentPosition();
-      if (context.mounted) {
-        Navigator.pushAndRemoveUntil(
-          context,
-          getHomePage(),
-          (route) => false,
-        );
-      }
+    if (!context.mounted) return;
+    final user = context.read<AuthServiceImpl>().currentUser;
+    if (permissions.values.every(
+      (element) => element == PermissionStatus.granted,
+    )) {
+      Navigator.pushAndRemoveUntil(
+        context,
+        switch (user?.role) {
+          Role.user => getHomePage(),
+          Role.radarAdmin => getAdminHomePage(),
+          _ => getIntroPage(),
+        },
+        (route) => false,
+      );
     }
   }
 
@@ -75,12 +81,6 @@ abstract final class Routes {
   static PageRoute getAdminHomePage() {
     return MaterialPageRoute(
       builder: (context) => const AdminHomePage(),
-    );
-  }
-
-  static PageRoute getRadarAdminPage() {
-    return MaterialPageRoute(
-      builder: (context) => const RadarAdminHomePage(),
     );
   }
 }

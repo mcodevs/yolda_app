@@ -21,10 +21,7 @@ class Geofencing {
         geofenceRadiusSortType: GeofenceRadiusSortType.DESC,
       );
 
-  static Future<void> getRadars() async {
-    await _service.start();
-    LogService.e("${_service.isRunningService}");
-  }
+  static Future<void> getRadars() async => await _service.start();
 
   // static updateRadars(List<BaseModel> radars) {
   //   _service.clearGeofenceList();
