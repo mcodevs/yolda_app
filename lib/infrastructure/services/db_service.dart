@@ -1,14 +1,10 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:yolda_app/domain/common/enums/role.dart';
-import 'package:yolda_app/infrastructure/models/auth/local_model.dart';
 
 class DBService {
   /// Keys
   static const _dark = "is_dark";
-  static const _isUserLogged = "is_UserLogged";
+  static const _isUserLogged = "is_user_logged";
 
   static SharedPreferences? _storage;
 
@@ -25,14 +21,12 @@ class DBService {
     await storage.setBool(_dark, mode == ThemeMode.dark ? true : false);
   }
 
-  static Role? isLogged() {
-    final data = storage.getString(_isUserLogged);
-    LocalUserModel? localUserModel = data != null ? LocalUserModel.fromJson(jsonDecode(data)) : null;
-    return localUserModel?.role;
+  static String? isLogged() {
+    return storage.getString(_isUserLogged);
   }
 
-  static Future<void> saveLogged(LocalUserModel localUserModel)async {
-    await storage.setString(_isUserLogged, jsonEncode(localUserModel.toJson()));
+  static Future<void> saveLogged(String phoneNumber) async {
+    await storage.setString(_isUserLogged, phoneNumber);
   }
 
   static Future<void> removeUser() async {

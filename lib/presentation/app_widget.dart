@@ -27,7 +27,7 @@ class _AppWidgetState extends State<AppWidget> {
           /// Routes
           onGenerateRoute: (settings) {
             return Routes.getInitialRoute(
-              context.read<AuthServiceImpl>().checkLogged(),
+              context.read<AuthServiceImpl>().role,
             );
           },
 

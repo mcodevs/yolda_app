@@ -22,9 +22,9 @@ class FirebaseService {
     return data.data() == null ? null : UserModel.fromJson(data.data()!);
   }
 
-  static Future<void> logOut(String phoneNumber) async {
+  static Future<void> changeActivity(String phoneNumber, bool activity) async {
     await _firebase.collection('users').doc(phoneNumber).update({
-      "is-active": false,
+      "is-active": activity,
     });
   }
 }

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:yolda_app/firebase_options.dart';
+import 'package:yolda_app/infrastructure/implementations/auth/auth_service.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
 import 'package:yolda_app/infrastructure/services/geofencing_service.dart';
 import 'package:yolda_app/infrastructure/services/log_service.dart';
@@ -21,7 +22,8 @@ class AppInit {
       RemoteConfigService.initialize(),
       TTSService.initialize(),
     ]);
-    await Geolocator.getCurrentPosition();
+    await AuthServiceImpl.checkLogged();
+    // await Geolocator.getCurrentPosition();
     Geofencing.initialize();
     await Geofencing.getRadars();
 

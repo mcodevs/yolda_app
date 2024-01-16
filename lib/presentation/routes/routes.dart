@@ -29,7 +29,7 @@ abstract final class Routes {
       Permission.activityRecognition,
     ].request();
     if (!context.mounted) return;
-    final user = context.read<AuthServiceImpl>().currentUser;
+    final user = AuthServiceImpl.currentUser;
     if (permissions.values.every(
       (element) => element == PermissionStatus.granted,
     )) {

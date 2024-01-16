@@ -2,26 +2,27 @@ import 'package:yolda_app/domain/common/enums/role.dart';
 import 'package:yolda_app/domain/repositories/auth_service_repo.dart';
 import 'package:yolda_app/infrastructure/core/exceptions.dart';
 import 'package:yolda_app/infrastructure/firebase/firebase_service.dart';
-import 'package:yolda_app/infrastructure/models/auth/local_model.dart';
 import 'package:yolda_app/infrastructure/models/auth/user_model.dart';
 import 'package:yolda_app/infrastructure/services/db_service.dart';
 
 class AuthServiceImpl extends AuthServiceRepository {
-  UserModel? user;
-  late final Role? _role;
-
   static final FirebaseService _service = FirebaseService();
-  static DBService dbService = DBService();
 
-  @override
-  Role? checkLogged() {
-    _role = DBService.isLogged();
-    return _role;
+  static Future<Role?> checkLogged() async {
+    final phoneNumber = DBService.isLogged();
+    if (phoneNumber == null) return null;
+    final user = await FirebaseService.getOrChek(phoneNumber);
+    if (user == null) {
+      await DBService.removeUser();
+      return null;
+    }
+    currentUser = user;
+    return currentUser!.role;
   }
 
   @override
   Future<void> logOut() async {
-    await FirebaseService.logOut(currentUser!.phoneNumber);
+    await FirebaseService.changeActivity(currentUser!.phoneNumber, false);
     await DBService.removeUser();
     currentUser = null;
   }
@@ -39,12 +40,8 @@ class AuthServiceImpl extends AuthServiceRepository {
         throw WrongPasswordOrActive("Password Xato");
       }
 
-      await DBService.saveLogged(
-        LocalUserModel(
-          role: currentUser!.role,
-          phoneNumber: currentUser!.phoneNumber,
-        ),
-      );
+      await DBService.saveLogged(phoneNumber);
+      FirebaseService.changeActivity(phoneNumber, true);
     }
   }
 
@@ -52,14 +49,11 @@ class AuthServiceImpl extends AuthServiceRepository {
   Future<void> register({required UserModel userModel}) async {
     await _service.saveUser(userModel);
     currentUser = userModel;
-    await DBService.saveLogged(
-      LocalUserModel(role: userModel.role, phoneNumber: userModel.phoneNumber),
-    );
+    await DBService.saveLogged(userModel.phoneNumber);
   }
 
   @override
-  Role? get role => _role;
+  Role? get role => currentUser?.role;
 
-  @override
-  UserModel? currentUser;
+  static UserModel? currentUser;
 }

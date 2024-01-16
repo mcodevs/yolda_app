@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class CustomFABLocation extends FloatingActionButtonLocation {
+  const CustomFABLocation();
   @override
   Offset getOffset(ScaffoldPrelayoutGeometry scaffoldGeometry) {
     return Offset(
